@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class #SCRIPTNAME# : State
+{
+    // This is the default constuctor
+    public #SCRIPTNAME#(StateMachine stateMachine) : base(stateMachine) {}
+
+    //This method is called when this state is entered
+    public override void Enter() {
+        base.Enter();
+    }
+
+    //This method is called on Update() before LogicUpdate()
+    public override void HandleInput() {
+        base.HandleInput();
+    }
+
+    //This method is called on Update() after HandleInput()
+    public override void LogicUpdate() {
+        base.LogicUpdate();
+    }
+
+    //This method is called on FixedUpdate()
+    public override void PhysicsUpdate() {
+        base.PhysicsUpdate();
+    }
+
+    //This method is called when the state is exited
+    public override void Exit() {
+        base.Exit();
+    }
+}

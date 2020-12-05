@@ -1,0 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class #SCRIPTNAME# : StateMachine
+{
+    //This is the default state, replace it with your first state
+    State defaultState;
+
+    // Start is called before the first frame update
+    void Start() {
+        defaultState = new State(this);
+        Initialize(defaultState);
+    }
+}
