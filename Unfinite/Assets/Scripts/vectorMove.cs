@@ -11,15 +11,14 @@ public class vectorMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dx = 0.0f;
-        dy = 0.0f;
-        angle = 0.0f;
+        // dx = 0.0f;
+        // dy = 0.0f;
+        // angle = 0.0f;
         body = GetComponent<Rigidbody2D>();
-        v = new Vector3(0.0f,0.0f, 0.0f);
-        addVelocity(0.05f, Mathf.PI);
+        // v = new Vector3(0.0f,0.0f, 0.0f);
     }
 
-    void addVelocity(float magnitude, float a)
+    public void addVelocity(float magnitude, float a)
     {
         dx = magnitude * Mathf.Cos(a);
         dy = magnitude * Mathf.Sin(a);
@@ -32,7 +31,6 @@ public class vectorMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        body.MovePosition(transform.position + v);
-        
+        body.MovePosition(transform.position + v);   
     }
 }
