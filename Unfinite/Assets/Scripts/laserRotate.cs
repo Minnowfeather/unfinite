@@ -29,9 +29,15 @@ public class laserRotate : MonoBehaviour
 
     public void setRotation(float rotation)
     {
-        setDirection = rotation;        
+        setDirection = rotation;
 
-        targetDirection += setDirection - (targetDirection % 360);
+        if (Mathf.Abs(setDirection - (currentDirection % 360)) < 180)
+        {
+            targetDirection += setDirection - (targetDirection % 360);
+        } else
+        {
+            targetDirection += setDirection + 360 - (targetDirection % 360);
+        }
     }
 
     // Update is called once per frame
@@ -44,7 +50,7 @@ public class laserRotate : MonoBehaviour
             setDirection += 360;
         }
 
-        if (Mathf.Abs(currentDirection - targetDirection) > 1)
+        if (Mathf.Abs(currentDirection - targetDirection) > turnSpeed)
         {
             int turnDir = (targetDirection > currentDirection) ? +1 : -1;
             

@@ -22,7 +22,7 @@ public class testFire : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown("[1]") || Input.GetKeyDown("[5]")){
-            p.startCone(g, amount, interval, speed);
+            p.startCone(g, amount, interval, speed, 0);
             c += dR;
         }
     }
