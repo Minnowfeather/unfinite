@@ -7,9 +7,10 @@ public class testFire : MonoBehaviour
     private generatePatterns p;
     private GameObject g;
     float c = 0;
-    public int things = 0;
+    public int amount = 0;
     public float speed = 0.0f;
     public float dR = 0.0f;
+    public float interval = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +22,7 @@ public class testFire : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown("[1]") || Input.GetKeyDown("[5]")){
-            p.shantsStupidCone(g, things, speed);
+            p.startCone(g, amount, interval, speed);
             c += dR;
         }
     }
