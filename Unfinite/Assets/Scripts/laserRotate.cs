@@ -4,30 +4,44 @@ using UnityEngine;
 
 public class laserRotate : MonoBehaviour
 {
-    private Rigidbody2D body;
     private float targetDirection;
     private float currentDirection;
-    [SerializeField]
     private float setDirection;
+
+    //This is the speed at which the lazer will rotate
     public float turnSpeed;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        body = GetComponent<Rigidbody2D>();
         setDirection = currentDirection = targetDirection = 0;
     }
 
+    // == TO DO ==
+    // - Test the Radian methods
+
+    //The addRotation methods change the target rotation by the set ammount
+    //positive for anti-clockwise negative for clockwise
     public void addRotationRadians(float rotation){
-        setDirection += Mathf.Rad2Deg * rotation; // (rotation*180.0f/Mathf.PI);
-        targetDirection += Mathf.Rad2Deg * rotation; // (rotation*180.0f/Mathf.PI);
+        setDirection += Mathf.Rad2Deg * rotation; 
+        targetDirection += Mathf.Rad2Deg * rotation; 
     }
     public void addRotationDegrees(float rotation)
     {
-        setDirection += rotation; // (rotation*180.0f/Mathf.PI);
-        targetDirection += rotation; // (rotation*180.0f/Mathf.PI);
+        setDirection += rotation; 
+        targetDirection += rotation; 
     }
 
-    public void setRotation(float rotation)
+    //The setRotation methods directly set the angle the lazer should rotate to
+    //and will take the shortest path to allign
+    //rotation should be between 0 and 360 degrees (0 to 2PI radians)
+    public void setRotationRadians(float rotation)
+    {
+        setRotationDegrees(Mathf.Rad2Deg * rotation);
+    }
+
+    public void setRotationDegrees(float rotation)
     {
         setDirection = rotation;
 

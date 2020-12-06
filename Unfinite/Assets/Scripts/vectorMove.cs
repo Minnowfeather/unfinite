@@ -25,7 +25,6 @@ public class vectorMove : MonoBehaviour
         v = new Vector3(dx,dy, 0.0f);
         angle = a;
         // body.RotateAngle(a);
-
     }
 
     // Update is called once per frame
