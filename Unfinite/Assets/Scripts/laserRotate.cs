@@ -8,6 +8,8 @@ public class laserRotate : MonoBehaviour
     private float currentDirection;
     private float setDirection;
 
+    private bool freeRotate = false, freeRotateDirection = false;
+
     //This is the speed at which the lazer will rotate
     public float turnSpeed;
 
@@ -54,6 +56,19 @@ public class laserRotate : MonoBehaviour
         }
     }
 
+    //Anti-clockwise is true, clockwise is false
+    public void enableFreeRotate(bool direction)
+    {
+        freeRotate = true;
+        freeRotateDirection = direction;
+    }
+
+    public void stopRotating()
+    {
+        freeRotate = false;
+        targetDirection = currentDirection;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -62,6 +77,11 @@ public class laserRotate : MonoBehaviour
         if (setDirection < 0)
         {
             setDirection += 360;
+        }
+
+        if (freeRotate)
+        {
+            targetDirection += (freeRotateDirection) ? turnSpeed : -turnSpeed;
         }
 
         if (Mathf.Abs(currentDirection - targetDirection) > turnSpeed)
