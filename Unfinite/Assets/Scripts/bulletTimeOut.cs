@@ -5,18 +5,16 @@ using UnityEngine;
 public class bulletTimeOut : MonoBehaviour
 {
     // Start is called before the first frame update
-    float time;
+    public float lifeTime;
     void Start()
     {
-        time = 0.0f;
+        StartCoroutine(Die());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator Die()
     {
-        time += 0.01f;
-        if(time >= 1f){
-            Destroy(gameObject);
-        }
+        yield return new WaitForSeconds(lifeTime);
+        Destroy(this.gameObject);
     }
+
 }
