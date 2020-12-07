@@ -8,7 +8,8 @@ public class generatePatterns : MonoBehaviour
 
     public GameObject bulletPrefab;
     public GameObject laserPrefab;
-    private float dT = 0; 
+    public GameObject bulletLinePrefab;
+    private float bulletLine_dT, cone_dT = 0; 
     private GameObject bulletBoss;
 
     // cone specific
@@ -25,29 +26,37 @@ public class generatePatterns : MonoBehaviour
     private float laser_spawnTime, laser_rotationSpeed, laser_offset, laser_duration;
     private List<GameObject> activeLasers;
 
-    // pool stuf
-    private List<GameObject> pool;
-    private bool poolGenerated = false;
+    // bullet line specific
+    private bool bulletLine_active = false;
+    private int bulletLine_lineQuantity, bulletLine_bulletQuantity;
+    private float bulletLine_spacing, bulletLine_spawnTime, bulletLine_offset;
+    private List<GameObject> activeBulletLine;
+    private GameObject bulletLinePivotPoint;
 
+    // pool stuf
+    private List<GameObject> cone_pool;
+    private List<List<GameObject>> bulletLine_pool;
+    private bool conePoolGenerated, bulletLinePoolGenerated = false;
+
+    private float start = 0.0f;
     void Start()
     {
-        pool = new List<GameObject>();
+        bulletLine_pool = new List<List<GameObject>>();
+        cone_pool = new List<GameObject>();
         activeLasers = new List<GameObject>();
+        activeBulletLine = new List<GameObject>();
     }
     void Update()
     {
         if(cone_active){
-            // LUKAS: PLEASE HELP ME OH GOD WHAT IS THIS
-            while(!poolGenerated && cone_Amount != 0){
-                pool.Add(Instantiate(bulletPrefab, bulletBoss.transform.position, new Quaternion(0,0,0,0), bulletBoss.transform));
-                cone_Count++;
-                if(cone_Count >= cone_Amount){
-                    poolGenerated = true;
-                    cone_Count = 0;;
+            cone_dT += Time.deltaTime;
+            while(cone_Amount != 0 && !conePoolGenerated){
+                cone_pool.Add(Instantiate(bulletPrefab, bulletBoss.transform.position, new Quaternion(0,0,0,0), bulletBoss.transform));
+                if(cone_pool.Count == cone_Amount){
+                    conePoolGenerated = true;;
                 }
             }
-            dT += Time.deltaTime;
-            if(dT >= (cone_Interval/1000.0f)){
+            if(cone_dT >= (cone_Interval/1000.0f)){
                 if(cone_Angle <= cone_spread && cone_Up){
                     cone_Angle += (cone_spread*(1/cone_rotationSpeed));
                 } else {
@@ -59,25 +68,62 @@ public class generatePatterns : MonoBehaviour
                     }
                 }
                 if(cone_Amount == 0){
-                    pool.Add(Instantiate(bulletPrefab, bulletBoss.transform.position, new Quaternion(0,0,0,0), bulletBoss.transform));
+                    cone_pool.Add(Instantiate(bulletPrefab, bulletBoss.transform.position, new Quaternion(0,0,0,0), bulletBoss.transform));
                 }
                 print(cone_Offset);
-                pool[0].GetComponent<vectorMove>().addVelocity(cone_Speed, cone_Angle + cone_Offset);
-                pool.RemoveAt(0);
+                cone_pool[0].GetComponent<vectorMove>().addVelocity(cone_Speed, cone_Angle + cone_Offset);
+                cone_pool.RemoveAt(0);
                 if(cone_Amount != 0){
                     cone_Count++;
                 }
-                dT = dT - cone_Interval/1000.0f;
+                cone_dT = cone_dT - cone_Interval/1000.0f;
             }
             if(cone_Count >= cone_Amount && cone_Amount != 0){
                 cone_Count = 0;
                 cone_active = false;
-                poolGenerated = false;
+                conePoolGenerated = false;
             }
         }
         // if(laser){
             
         // }
+        if(bulletLine_active){
+            bulletLine_dT += Time.deltaTime;
+            start += Time.deltaTime;
+            if(!bulletLinePoolGenerated){
+                if(bulletLine_pool.Count == 0){
+                    bulletLinePivotPoint = Instantiate(bulletLinePrefab, bulletBoss.transform.position, new Quaternion(0,0,0,0), bulletBoss.transform);
+                }
+                for(int i = 0; i < bulletLine_lineQuantity; i++){
+                    bulletLine_pool.Add(new List<GameObject>());
+                    for(int j = 0; j < bulletLine_bulletQuantity; j++){
+                        bulletLine_pool[i].Add(Instantiate(bulletPrefab, bulletLinePivotPoint.transform.position, new Quaternion(0,0,0,0), bulletLinePivotPoint.transform));
+                        bulletLine_pool[i][j].GetComponent<vectorMove>().addVelocity(bulletLine_spacing/(bulletLine_spawnTime/1000.0f), bulletLine_offset + (i*2*Mathf.PI)/bulletLine_lineQuantity);
+                    }
+                }
+                bulletLinePoolGenerated = true;
+            }
+            for(int i = 0; i < bulletLine_pool.Count; i++){
+                for(int j = 0; j < bulletLine_pool[i].Count; j++){
+                    if((Vector3.Distance(bulletLine_pool[i][j].transform.position, bulletLinePivotPoint.transform.position) >= (bulletLine_spacing*(j+1)))){
+                        bulletLine_pool[i][j].GetComponent<vectorMove>().addVelocity(0, 0);
+                        if(j == bulletLine_pool[i].Count-1)
+                        {
+                            print(start);
+                        }
+                    }
+                }
+            }
+            
+            /*
+                summon pivot
+                summon bullets as children of pivot
+                move outwards
+                speed of bullet = num bullets / total time
+            */
+        } else{
+            bulletLinePoolGenerated = false;
+        }
         
     }
 
@@ -299,5 +345,16 @@ public class generatePatterns : MonoBehaviour
         }
     }
 
+    public void bulletLine(GameObject boss, int quantityLines, int quantityBullets, float spacing, float spawnTime, float offset)
+    {
+        bulletLine_active = true;
+        bulletBoss = boss;
+        bulletLine_lineQuantity = quantityLines;
+        bulletLine_bulletQuantity = quantityBullets;
+        bulletLine_spacing = spacing;
+        bulletLine_spawnTime = spawnTime;
+        bulletLine_offset = offset;
+
+    }
 
 }

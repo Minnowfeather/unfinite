@@ -12,7 +12,8 @@ public class testFire : MonoBehaviour
     public float interval = 0.0f;
     public float rotationSpeed = 0.0f;
     public float spread = Mathf.PI/12.0f;
-    public bool circle, cone, laser = false;
+    public int prongs = 4;
+    public bool circle, cone, laser, bulletLine = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,13 +26,16 @@ public class testFire : MonoBehaviour
     {
         if(Input.GetKeyDown("[1]")){
             if(cone){
-                p.startCone(g, interval, speed, dR, rotationSpeed, spread);
+                p.cone(g, amount, interval, speed, dR, rotationSpeed, spread);
             }
             if(circle){
                 p.circle(g, amount, speed, dR);
             }
             if(laser){
                 p.startLaser(g, amount, 0, rotationSpeed, dR, 3);
+            }
+            if(bulletLine){
+                p.bulletLine(g, prongs, amount, 1f, 2000.0f, dR);
             }
         }
         if(Input.GetKeyDown("[3]")){
