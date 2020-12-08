@@ -7,7 +7,7 @@ public class move : MonoBehaviour
     public Rigidbody2D rb;
     public float speed = 15f;
     public GameObject temp;
-    private List<GameObject> pew = new List<GameObject>();
+    public float gravity = 0f;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -23,7 +23,11 @@ public class move : MonoBehaviour
         rb.velocity = new Vector3(speed * Input.GetAxis("Horizontal"), speed * Input.GetAxis("Vertical"), 0f);
         if(Input.GetAxis("Fire1") == 1)
         {   
-            Instantiate(temp, new Vector3(rb.position.x, rb.position.y, 0.0f), Quaternion.identity);
+            GameObject clone = Instantiate(temp, new Vector3(rb.position.x, rb.position.y, 0.0f), Quaternion.identity);
+            clone.AddComponent<Rigidbody2D>();
+            (clone.GetComponent(typeof(Rigidbody2D)) as Rigidbody2D).gravityScale = gravity;
+            clone.AddComponent<bulletMover>();
         }
+        
     }
 }

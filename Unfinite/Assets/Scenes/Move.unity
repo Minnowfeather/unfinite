@@ -458,7 +458,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -480,6 +480,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   speed: 15
   temp: {fileID: 3561458384997180895, guid: 9df84f3b5344a214f9106762896f598c, type: 3}
+  gravity: 0
 --- !u!212 &1968130945
 SpriteRenderer:
   m_ObjectHideFlags: 0
