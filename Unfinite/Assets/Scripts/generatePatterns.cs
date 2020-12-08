@@ -6,11 +6,10 @@ using UnityEditor;
 public class generatePatterns : MonoBehaviour
 {
 
-    public GameObject bulletPrefab;
-    public GameObject laserPrefab;
-    public GameObject bulletLinePrefab;
+    public GameObject bulletPrefab, laserPrefab, bulletLinePrefab, spinningCirclePrefab;
     private float bulletLine_dT, cone_dT = 0; 
-    private GameObject bulletBoss;
+
+    private GameObject boss;
 
     // cone specific
     private bool cone_active = false;
@@ -30,32 +29,33 @@ public class generatePatterns : MonoBehaviour
     private bool bulletLine_active = false;
     private int bulletLine_lineQuantity, bulletLine_bulletQuantity;
     private float bulletLine_spacing, bulletLine_spawnTime, bulletLine_offset;
-    private List<GameObject> activeBulletLine;
-    private GameObject bulletLinePivotPoint;
+    private GameObject bulletLinePivotPoint, spinningCirclePivotPoint;
 
+    // spinning circle specific
+    private bool spinningCircle_active;
+    private int spinningCircle_quantity;
+    private float spinningCircle_distance, spinningCircle_spawnTime;
+    
     // pool stuf
-    private List<GameObject> cone_pool;
+    private List<GameObject> cone_pool, spinningCircle_pool;
     private List<List<GameObject>> bulletLine_pool;
-    private bool conePoolGenerated, bulletLinePoolGenerated = false;
+    
+    public GameObject measure;
 
     private float start = 0.0f;
     void Start()
     {
+        boss = this.gameObject;
         bulletLine_pool = new List<List<GameObject>>();
         cone_pool = new List<GameObject>();
+        spinningCircle_pool = new List<GameObject>();
         activeLasers = new List<GameObject>();
-        activeBulletLine = new List<GameObject>();
+        print(Vector3.Distance(boss.transform.position, measure.transform.position));
     }
     void Update()
     {
         if(cone_active){
             cone_dT += Time.deltaTime;
-            while(cone_Amount != 0 && !conePoolGenerated){
-                cone_pool.Add(Instantiate(bulletPrefab, bulletBoss.transform.position, new Quaternion(0,0,0,0), bulletBoss.transform));
-                if(cone_pool.Count == cone_Amount){
-                    conePoolGenerated = true;;
-                }
-            }
             if(cone_dT >= (cone_Interval/1000.0f)){
                 if(cone_Angle <= cone_spread && cone_Up){
                     cone_Angle += (cone_spread*(1/cone_rotationSpeed));
@@ -68,7 +68,7 @@ public class generatePatterns : MonoBehaviour
                     }
                 }
                 if(cone_Amount == 0){
-                    cone_pool.Add(Instantiate(bulletPrefab, bulletBoss.transform.position, new Quaternion(0,0,0,0), bulletBoss.transform));
+                    cone_pool.Add(Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
                 }
                 print(cone_Offset);
                 cone_pool[0].GetComponent<vectorMove>().addVelocity(cone_Speed, cone_Angle + cone_Offset);
@@ -81,7 +81,6 @@ public class generatePatterns : MonoBehaviour
             if(cone_Count >= cone_Amount && cone_Amount != 0){
                 cone_Count = 0;
                 cone_active = false;
-                conePoolGenerated = false;
             }
         }
         // if(laser){
@@ -90,19 +89,6 @@ public class generatePatterns : MonoBehaviour
         if(bulletLine_active){
             bulletLine_dT += Time.deltaTime;
             start += Time.deltaTime;
-            if(!bulletLinePoolGenerated){
-                if(bulletLine_pool.Count == 0){
-                    bulletLinePivotPoint = Instantiate(bulletLinePrefab, bulletBoss.transform.position, new Quaternion(0,0,0,0), bulletBoss.transform);
-                }
-                for(int i = 0; i < bulletLine_lineQuantity; i++){
-                    bulletLine_pool.Add(new List<GameObject>());
-                    for(int j = 0; j < bulletLine_bulletQuantity; j++){
-                        bulletLine_pool[i].Add(Instantiate(bulletPrefab, bulletLinePivotPoint.transform.position, new Quaternion(0,0,0,0), bulletLinePivotPoint.transform));
-                        bulletLine_pool[i][j].GetComponent<vectorMove>().addVelocity(bulletLine_spacing/(bulletLine_spawnTime/1000.0f), bulletLine_offset + (i*2*Mathf.PI)/bulletLine_lineQuantity);
-                    }
-                }
-                bulletLinePoolGenerated = true;
-            }
             for(int i = 0; i < bulletLine_pool.Count; i++){
                 for(int j = 0; j < bulletLine_pool[i].Count; j++){
                     if((Vector3.Distance(bulletLine_pool[i][j].transform.position, bulletLinePivotPoint.transform.position) >= (bulletLine_spacing*(j+1)))){
@@ -121,11 +107,49 @@ public class generatePatterns : MonoBehaviour
                 move outwards
                 speed of bullet = num bullets / total time
             */
-        } else{
-            bulletLinePoolGenerated = false;
+        }
+
+        if(spinningCircle_active){
+            for(int i = 0; i < spinningCircle_pool.Count; i++){
+                if(Vector3.Distance(spinningCircle_pool[i].transform.position, spinningCirclePivotPoint.transform.position) >= spinningCircle_distance){
+                    spinningCircle_pool[i].GetComponent<vectorMove>().addVelocity(0,0);
+                }
+            }
         }
         
     }
+
+    /*
+
+        Fire Bullet
+
+        @param boss
+            The boss that the bullet spawns on.
+            Bullet then extends outwards.
+        
+        @param speed
+            How fast the bullet should move.
+            Measured in distance per frame
+        
+        @param direction
+            The angle at which the bullet should fire.
+            Measured in radians.
+
+        @param target
+            The target at which the boss should fire at.
+            This is the position of the target.
+        
+        
+    */
+    public void fireBullet(GameObject boss, float speed, float direction){
+        GameObject temp = Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+        temp.GetComponent<vectorMove>().addVelocity(speed, direction);
+    }
+    public void fireBullet(GameObject boss, float speed, Vector3 target){
+        GameObject temp = Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+        temp.GetComponent<vectorMove>().addVelocity(speed, Vector3.Angle(boss.transform.position, target) * Mathf.Deg2Rad);
+    }
+
 
     /*
 
@@ -164,6 +188,35 @@ public class generatePatterns : MonoBehaviour
         }
     }
 
+    /* 
+
+        Spinning Circle
+
+    */
+    public void spinningCircle(GameObject boss, int quantity, float spawnTime, float distance)
+    {
+        spinningCirclePivotPoint = Instantiate(spinningCirclePrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+        spinningCircle_active = true;
+        spinningCircle_quantity = quantity;
+        spinningCircle_spawnTime = spawnTime;
+        spinningCircle_distance = distance;
+        for(int i = 0; i < quantity; i++){
+            spinningCircle_pool.Add(Instantiate(bulletPrefab, spinningCirclePivotPoint.transform.position, new Quaternion(0,0,0,0), spinningCirclePivotPoint.transform));
+            spinningCircle_pool[i].GetComponent<vectorMove>().addVelocity(distance/(10000.0f/spinningCircle_spawnTime), (i*2*Mathf.PI)/spinningCircle_quantity, 1000/(10000.0f/spinningCircle_spawnTime));
+        }
+    }
+    public void startSpinningCircle(float rotationSpeed)
+    {
+        spinningCirclePivotPoint.GetComponent<laserRotate>().setRotationRadians(rotationSpeed);
+        spinningCirclePivotPoint.GetComponent<laserRotate>().enableFreeRotate(true);
+    }
+    public void stopSpinningCircle(){
+        spinningCirclePivotPoint.GetComponent<laserRotate>().stopRotating();
+    }
+
+
+    /*
+
     /*
 
         Cone
@@ -197,19 +250,21 @@ public class generatePatterns : MonoBehaviour
     */
     public void cone(GameObject boss, int quantity, float interval, float speed, float offset, float rotationSpeed, float spread){
         cone_active = true;
-        bulletBoss = boss;
         cone_Amount = quantity;
         cone_Interval = interval;
         cone_Speed = speed;
         cone_Offset = offset;
         cone_rotationSpeed = rotationSpeed;
         cone_spread = spread;
+
+        for(int i = 0; i < cone_Amount; i++){
+            cone_pool.Add(Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
+        }
         // maximum pi/12 radians up pi/12 down
     }
     public void startCone(GameObject boss, float interval, float speed, float offset, float rotationSpeed, float spread){
         if(!cone_active){
             cone_active = true;
-            bulletBoss = boss;
             cone_Amount = 0;
             cone_Interval = interval;
             cone_Speed = speed;
@@ -238,6 +293,35 @@ public class generatePatterns : MonoBehaviour
     }
     public void setConeSpread(float spread){
         cone_spread = spread;
+    }
+
+    /* Bullet Line
+
+    */
+    public void bulletLine(GameObject boss, int quantityLines, int quantityBullets, float spacing, float spawnTime, float offset)
+    {
+        bulletLine_active = true;
+        bulletLine_lineQuantity = quantityLines;
+        bulletLine_bulletQuantity = quantityBullets;
+        bulletLine_spacing = spacing;
+        bulletLine_spawnTime = spawnTime;
+        bulletLine_offset = offset;
+
+        bulletLinePivotPoint = Instantiate(bulletLinePrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+        for(int i = 0; i < bulletLine_lineQuantity; i++){
+            bulletLine_pool.Add(new List<GameObject>());
+            for(int j = 0; j < bulletLine_bulletQuantity; j++){
+                bulletLine_pool[i].Add(Instantiate(bulletPrefab, bulletLinePivotPoint.transform.position, new Quaternion(0,0,0,0), bulletLinePivotPoint.transform));
+                bulletLine_pool[i][j].GetComponent<vectorMove>().addVelocity(bulletLine_spacing/(bulletLine_spawnTime/1000.0f), bulletLine_offset + (i*2*Mathf.PI)/bulletLine_lineQuantity);
+            }
+        }
+    }
+    public void startBulletLineRotation(float rotationSpeed){
+        bulletLinePivotPoint.GetComponent<laserRotate>().setRotationRadians(rotationSpeed);
+        bulletLinePivotPoint.GetComponent<laserRotate>().enableFreeRotate(true);
+    }
+    public void stopBulletLineRotation(float rotationSpeed){
+        bulletLinePivotPoint.GetComponent<laserRotate>().stopRotating();
     }
 
     /*
@@ -274,14 +358,13 @@ public class generatePatterns : MonoBehaviour
     public void laser(GameObject boss, int quantity, float spawnTime, float rotationSpeed, float offset, float length)
     {
         laser_active = true;
-        bulletBoss = boss;
         laser_quantity = quantity;
         laser_spawnTime = spawnTime;
         laser_rotationSpeed = rotationSpeed;
         laser_offset = offset;
         float dR = (2*Mathf.PI) / laser_quantity;
         for(int i = 0; i < laser_quantity; i++){
-            GameObject temp = Instantiate(laserPrefab, bulletBoss.transform.position, new Quaternion(0,0,0,0), bulletBoss.transform);
+            GameObject temp = Instantiate(laserPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
             temp.transform.localScale = new Vector3(length, 1, 1);
             temp.GetComponent<laserRotate>().setRotationRadians(1);
             temp.GetComponent<laserRotate>().turnSpeed = laser_rotationSpeed*Mathf.Rad2Deg;
@@ -292,14 +375,13 @@ public class generatePatterns : MonoBehaviour
     {
         if(!laser_active){
             laser_active = true;
-            bulletBoss = boss;
             laser_quantity = quantity;
             laser_spawnTime = spawnTime;
             laser_rotationSpeed = rotationSpeed;
             laser_offset = offset;
             float dR = (2*Mathf.PI) / laser_quantity;
             for(int i = 0; i < laser_quantity; i++){
-                GameObject temp = Instantiate(laserPrefab, bulletBoss.transform.position, new Quaternion(0,0,0, 0), bulletBoss.transform);
+                GameObject temp = Instantiate(laserPrefab, boss.transform.position, new Quaternion(0,0,0, 0), boss.transform);
                 temp.transform.localScale = new Vector3(length, 1, 1);
                 temp.transform.Rotate(0, 0, ((i*dR)+laser_offset) * Mathf.Rad2Deg);
                 temp.GetComponent<laserRotate>().setRotationRadians(1);
@@ -345,16 +427,5 @@ public class generatePatterns : MonoBehaviour
         }
     }
 
-    public void bulletLine(GameObject boss, int quantityLines, int quantityBullets, float spacing, float spawnTime, float offset)
-    {
-        bulletLine_active = true;
-        bulletBoss = boss;
-        bulletLine_lineQuantity = quantityLines;
-        bulletLine_bulletQuantity = quantityBullets;
-        bulletLine_spacing = spacing;
-        bulletLine_spawnTime = spawnTime;
-        bulletLine_offset = offset;
-
-    }
 
 }

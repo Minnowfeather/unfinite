@@ -691,6 +691,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8809408922487450126, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
   laserPrefab: {fileID: 7595997290443207373, guid: 265173799abcbb44ab89f47126384bf2, type: 3}
   bulletLinePrefab: {fileID: 4657889998661236543, guid: 1ee488684374f544981a992fa20de1e9, type: 3}
+  spinningCirclePrefab: {fileID: 4657889998661236543, guid: 1ee488684374f544981a992fa20de1e9, type: 3}
+  measure: {fileID: 1524677348}
 --- !u!114 &1024194141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,7 +705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5c03b5a934cdc429083ebdf73485f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 50
+  amount: 7
   speed: 1
   dR: 0
   interval: 50
@@ -713,7 +715,9 @@ MonoBehaviour:
   circle: 0
   cone: 0
   laser: 0
-  bulletLine: 1
+  bulletLine: 0
+  aim: 0
+  spinningCircle: 1
 --- !u!1 &1524677348 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8809408922487450126, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
@@ -1103,11 +1107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8809408922487450123, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.03
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 8809408922487450123, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.18
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8809408922487450123, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1159,7 +1163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8809408922487450126, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
