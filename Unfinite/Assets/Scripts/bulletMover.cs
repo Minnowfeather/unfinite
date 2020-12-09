@@ -5,31 +5,24 @@ using UnityEngine;
 public class bulletMover : MonoBehaviour
 {
     public Rigidbody2D clone;
-    public float bullet_speed_x = 10f;
-    public float bullet_speed_y = 10f;
+    public Vector3 mouse_position;
+    public Vector3 input_position;
 
-    void setX(float x)
-    {
-        bullet_speed_x = x;
-    }
-
-    void setY(float y)
-    {
-        bullet_speed_y = y;
-    }
     void Start()
     {
         clone = GetComponent<Rigidbody2D>();
+        Vector3 vec = -(input_position - mouse_position);
+        vec.z = 0;
+        clone.velocity = vec;
     }
 
-    
     void Update()
     {
-        
+
     }
 
-    void FixedUpdate() 
+    void FixedUpdate()
     {
-        clone.velocity = new Vector3(bullet_speed_x, bullet_speed_y, 0f);
+
     }
 }
