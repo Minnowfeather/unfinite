@@ -45,25 +45,25 @@ public class testFire : MonoBehaviour
             }
         }
         if(Input.GetKeyDown("[3]")){
-            p.stopCone();
+            p.stopCone(0);
             if(laser){
-                p.stopLaser();
+                p.stopLaser(0);
             }
         }
         if(Input.GetKeyDown("[2]")){
-            p.pauseLaser();
-            p.stopSpinningCircle();
+            p.pauseLaser(0);
+            p.stopSpinningCircle(0);
         }
         if(Input.GetKeyDown("[5]")){
-            p.resumeLaser();
-            p.startSpinningCircle(rotationSpeed);
+            p.resumeLaser(0);
+            p.startSpinningCircle(0,rotationSpeed);
         }
-        p.setConeOffset(dR);
-        p.setConeInterval(interval);
-        p.setConeSpeed(speed);
-        p.setConeRotationSpeed(rotationSpeed);
-        p.setConeSpread(spread);
-        p.setLaserOffset(dR);
-        p.setLaserRotationSpeed(rotationSpeed);
+        p.setConeOffset(0, dR);
+        p.setConeInterval(0, interval);
+        p.setConeSpeed(0, speed);
+        p.setConeRotationSpeed(0, rotationSpeed);
+        p.setConeSpread(0, spread);
+        p.setLaserOffset(0, dR);
+        p.setLaserRotationSpeed(0, rotationSpeed);
     }
 }
