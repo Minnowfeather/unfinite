@@ -239,7 +239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &465349104
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -787,7 +787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5c03b5a934cdc429083ebdf73485f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 7
+  amount: 200
   speed: 1
   dR: 0
   interval: 50
@@ -798,8 +798,8 @@ MonoBehaviour:
   cone: 0
   laser: 0
   bulletLine: 0
-  aim: 0
-  spinningCircle: 1
+  aim: 1
+  spinningCircle: 0
 --- !u!1 &1524677348 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8809408922487450126, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
@@ -1058,7 +1058,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1984487358
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1510,7 +1510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8809408922487450126, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
