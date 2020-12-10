@@ -32,7 +32,7 @@ public class testFire : MonoBehaviour
                 p.circle(g, amount, speed, dR);
             }
             if(laser){
-                p.startLaser(g, amount, 0, rotationSpeed, dR, 3);
+                p.laser(g, amount, 0, rotationSpeed, dR, 3);
             }
             if(bulletLine){
                 p.bulletLine(g, prongs, amount, 1f, 2000.0f, dR);
@@ -45,18 +45,40 @@ public class testFire : MonoBehaviour
             }
         }
         if(Input.GetKeyDown("[3]")){
-            p.stopCone(0);
+            if(cone){
+                p.despawnCone(0);
+            }
             if(laser){
-                p.stopLaser(0);
+                p.despawnLaser(0);
+            }
+            if(spinningCircle){
+                p.despawnSpinningCircle(0);
+            }
+            if(bulletLine){
+                p.despawnBulletLine(0);
             }
         }
         if(Input.GetKeyDown("[2]")){
-            p.pauseLaser(0);
-            p.stopSpinningCircle(0);
+            if(spinningCircle){
+                p.stopSpinningCircle(0);
+            }
+            if(laser){
+                p.pauseLaser(0);
+            }
+            if(bulletLine){
+                p.stopBulletLineRotation(0);
+            }
         }
         if(Input.GetKeyDown("[5]")){
-            p.resumeLaser(0);
-            p.startSpinningCircle(0,rotationSpeed);
+            if(spinningCircle){
+                p.startSpinningCircle(0,rotationSpeed);
+            }
+            if(laser){
+                p.resumeLaser(0);
+            }
+            if(bulletLine){
+                p.startBulletLineRotation(0, rotationSpeed);
+            }
         }
         // p.setConeOffset(0, dR);
         // p.setConeInterval(0, interval);

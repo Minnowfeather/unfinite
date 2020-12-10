@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2236860754836507247}
   - component: {fileID: 2236860754836507152}
   - component: {fileID: 2236860754836507153}
+  - component: {fileID: -3034283561658635696}
   m_Layer: 0
   m_Name: Spinning Laser Holder
   m_TagString: Untagged
@@ -96,3 +97,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 7595997290443207373, guid: 265173799abcbb44ab89f47126384bf2, type: 3}
+--- !u!50 &-3034283561658635696
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236860754836507154}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

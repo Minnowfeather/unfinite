@@ -45,21 +45,30 @@ public class SpinningLaser : MonoBehaviour
     
     public void laser(GameObject boss, int quantity, float spawnTime, float rotationSpeed, float offset, float length)
     {
+        activeLasers = new List<GameObject>();
         laser_quantity = quantity;
         laser_spawnTime = spawnTime;
         laser_rotationSpeed = rotationSpeed;
         laser_offset = offset;
         float dR = (2*Mathf.PI) / laser_quantity;
         for(int i = 0; i < laser_quantity; i++){
+            // spawn a new laser
             GameObject temp = Instantiate(laserPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+            // scale it up by length
             temp.transform.localScale = new Vector3(length, 1, 1);
+            // rotate it to place
+            temp.transform.Rotate(0, 0, ((i*dR)+laser_offset) * Mathf.Rad2Deg);
+            // apply the rotation speed
             temp.GetComponent<laserRotate>().setRotationRadians(1);
             temp.GetComponent<laserRotate>().turnSpeed = laser_rotationSpeed*Mathf.Rad2Deg;
-            temp.GetComponent<laserRotate>().enableFreeRotate(true);
+            activeLasers.Add(temp);
+            // temp.GetComponent<laserRotate>().enableFreeRotate(true);
         }
     }
     public void startLaser(GameObject boss, int quantity, float spawnTime, float rotationSpeed, float offset, float length)
     {
+        // same idea as above
+        activeLasers = new List<GameObject>();
         laser_quantity = quantity;
         laser_spawnTime = spawnTime;
         laser_rotationSpeed = rotationSpeed;
@@ -71,44 +80,45 @@ public class SpinningLaser : MonoBehaviour
             temp.transform.Rotate(0, 0, ((i*dR)+laser_offset) * Mathf.Rad2Deg);
             temp.GetComponent<laserRotate>().setRotationRadians(1);
             temp.GetComponent<laserRotate>().turnSpeed = laser_rotationSpeed*Mathf.Rad2Deg;
+            // let it rotate freely
             temp.GetComponent<laserRotate>().enableFreeRotate(true);
             activeLasers.Add(temp);
         }
     }
-    public void stopLaser()
-    {
-        for(int i = 0; i < laser_quantity; i++){
-            Destroy(activeLasers[i]);
-        }
-        activeLasers = new List<GameObject>();
-    }
-    public void pauseLaser()
+    // public void stop()
+    // {
+    //     despawn();
+    // }
+    public void pause()
     {
         for(int i = 0; i < laser_quantity; i++){
             activeLasers[i].GetComponent<laserRotate>().stopRotating();
         }
     }
-    public void resumeLaser()
+    public void resume()
     {
         for(int i = 0; i < laser_quantity; i++){
             activeLasers[i].GetComponent<laserRotate>().enableFreeRotate(true);
         }
     }
-    public void setLaserOffset(float offset){
+    public void setOffset(float offset){
         laser_offset = offset;
     }
-    public void setLaserRotationSpeed(float rotationSpeed){
+    public void setRotationSpeed(float rotationSpeed){
         laser_rotationSpeed = rotationSpeed;
         for(int i = 0; i < laser_quantity; i++){
             activeLasers[i].GetComponent<laserRotate>().turnSpeed = laser_rotationSpeed*Mathf.Rad2Deg;
         }
     }
+    public void despawn(){
+        Destroy(this.gameObject);
+    }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    // void Start()
+    // {
         
-    }
+    // }
 
     // Update is called once per frame
     void Update()

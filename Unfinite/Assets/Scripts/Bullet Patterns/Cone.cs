@@ -42,11 +42,12 @@ public class Cone : MonoBehaviour
     private bool cone_active = false;
     private float cone_Interval, cone_Speed, cone_Offset, cone_rotationSpeed, cone_spread;
     private int cone_Amount;
-    private int cone_Count = 0;
     private float cone_Angle = 0.0f;
     private bool cone_Up = true;
     private float cone_dT = 0;
     public void cone(GameObject b, GameObject bP, int quantity, float interval, float speed, float offset, float rotationSpeed, float spread){
+
+        cone_pool = new List<GameObject>();
         cone_active = true;
         cone_Amount = quantity;
         cone_Interval = interval;
@@ -57,11 +58,12 @@ public class Cone : MonoBehaviour
         boss = b;
         bulletPrefab = bP;
         for(int i = 0; i < cone_Amount; i++){
+            // generate the pool of bullets
             cone_pool.Add(Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
         }
-        // maximum pi/12 radians up pi/12 down
     }
     public void startCone(GameObject b, GameObject bP, float interval, float speed, float offset, float rotationSpeed, float spread){
+        cone_pool = new List<GameObject>();
         cone_active = true;
         cone_Amount = 0;
         cone_Interval = interval;
@@ -71,7 +73,6 @@ public class Cone : MonoBehaviour
         cone_spread = spread;
         boss = b;
         bulletPrefab = bP;
-        // maximum pi/12 radians up pi/12 down
     }
     public void stopCone(){
         cone_active = false;
@@ -91,21 +92,28 @@ public class Cone : MonoBehaviour
     public void setConeSpread(float spread){
         cone_spread = spread;
     }
+    public void despawn(){
+        Destroy(this.gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        cone_pool = new List<GameObject>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         if(cone_active){
+            // keep track of time
             cone_dT += Time.deltaTime;
+            // every cone_Interval miliseconds
             if(cone_dT >= (cone_Interval/1000.0f)){
+                // if its supposed to go up
                 if(cone_Angle <= cone_spread && cone_Up){
                     cone_Angle += (cone_spread*(1/cone_rotationSpeed));
+                // if its supposed to go down
                 } else {
                     cone_Up = false;
                     if(cone_Angle >= -cone_spread){
@@ -114,18 +122,19 @@ public class Cone : MonoBehaviour
                         cone_Up = true;
                     }
                 }
+                // if its supposed to infinitely generate
                 if(cone_Amount == 0){
                     cone_pool.Add(Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
                 }
+                // add velocity to bullet
                 cone_pool[0].GetComponent<vectorMove>().addVelocity(cone_Speed, cone_Angle + cone_Offset);
+                // remove bullet from pool
                 cone_pool.RemoveAt(0);
-                if(cone_Amount != 0){
-                    cone_Count++;
-                }
+                // keep track of time
                 cone_dT = cone_dT - cone_Interval/1000.0f;
             }
-            if(cone_Count >= cone_Amount && cone_Amount != 0){
-                cone_Count = 0;
+            // stop cone when pool exhausted
+            if(cone_pool.Count == 0 && cone_Amount != 0){
                 cone_active = false;
             }
         }
