@@ -7,6 +7,7 @@ public class BossDecisionNode
     string heuristic = "none";
     BossDecisionNode left, right;
     BossSequence sequence;
+    public BossNodeData nodeData;
 
     public void SetSequence(BossSequence m_sequence)
     {
