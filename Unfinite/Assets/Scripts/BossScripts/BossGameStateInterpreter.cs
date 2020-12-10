@@ -6,6 +6,10 @@ public class BossGameStateInterpreter : MonoBehaviour
 {
     public GameData InterpretGameState()
     {
-        return new GameData();
+        GameData gameData = new GameData();
+        gameData.bossHealth = Boss.Current().GetHealth();
+        gameData.bossPosition = Boss.Current().gameObject.transform.position;
+
+        return gameData;
     }
 }

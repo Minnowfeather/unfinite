@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour
 {
@@ -10,6 +11,12 @@ public class Boss : MonoBehaviour
     BossDecisionTree tree;
     public int points;
     Coroutine currentAction;
+    int health;
+
+    public static Boss Current()
+    {
+        return GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
+    }
 
     // Start is called before the first frame update.
     void Start()
@@ -26,6 +33,11 @@ public class Boss : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public int GetHealth()
+    {
+        return health;
     }
 
     public void RecordResult(BossSequence m_sequence)
