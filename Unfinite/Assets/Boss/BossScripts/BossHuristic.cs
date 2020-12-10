@@ -13,6 +13,11 @@ public static class BossHeuristic
 
     const int CLOSERANGE = 1;
 
+    public static bool Evaluate(BossSequence m_sequence)
+    {
+        return (m_sequence.preActionData.playerHealth > m_sequence.postActionData.playerHealth);
+    }
+
     //This method evaluates gamedata based on a specified heuristic.
     public static bool Evaluate(GameData m_gameData, Heuristic m_heuristic)
     {

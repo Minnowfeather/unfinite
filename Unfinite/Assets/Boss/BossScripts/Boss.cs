@@ -87,6 +87,8 @@ public class Boss : MonoBehaviour
         Adapt();
     }
 
+    const float WEIGHTCHANGE = 0.1f;
+
     public void Adapt()
     {
         //==TODO==
@@ -102,7 +104,16 @@ public class Boss : MonoBehaviour
         List<BossSequence> sequences = memory.Read();
         foreach (BossSequence sequence in sequences)
         {
-            
+            if (BossHeuristic.Evaluate(sequence))
+            {
+                foreach (BossDecisionNode node in sequence.path)
+                {
+                    if (node.heuristic == BossHeuristic.Heuristic.WEIGHTED)
+                    {
+                        node.weight += WEIGHTCHANGE;
+                    }
+                }
+            }
         }
     }
 
