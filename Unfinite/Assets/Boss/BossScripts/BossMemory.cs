@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossMemory
 {
-    Queue<BossSequence> memory = new Queue<BossSequence>();
+    List<List<BossSequence>> memory = new List<List<BossSequence>>();
     int memSize = 1;
 
     public BossMemory() { }
@@ -15,15 +15,27 @@ public class BossMemory
 
     public void Record(BossSequence m_sequence)
     {
-        memory.Enqueue(m_sequence);
-        while (memory.Count > memSize)
-        {
-            memory.Dequeue();
-        }
+        memory[memory.Count - 1].Add(m_sequence);
     }
 
-    public BossSequence[] Read()
+    public void NewGame()
     {
-        return memory.ToArray();
+        while (memory.Count >= memSize)
+        {
+            memory.RemoveAt(0);
+        }
+
+        memory.Add(new List<BossSequence>());
+    }
+
+    public List<BossSequence> Read()
+    {
+        List<BossSequence> sequences = new List<BossSequence>();
+        foreach (List<BossSequence> sequence in memory)
+        {
+            sequences.AddRange(sequence);
+        }
+
+        return sequences;
     }
 }

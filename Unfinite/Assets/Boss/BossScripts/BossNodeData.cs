@@ -46,7 +46,7 @@ public class BossNodeData
 
         if (nodeSpace.Count == 0)
         {
-            nodeSpace.Add(new BossDecisionNode(BossHeuristic.Heuristic.RANDOM, new BossNodeData(new List<BossNodeType>(new BossNodeType[] { (Random.Range(0, 1) > 0.5f) ? m_left.nodeData.front[0] : m_right.nodeData.front[0] }), new List<BossNodeType>(new BossNodeType[] { m_left.nodeData.front[0] }), new List<BossNodeType>(new BossNodeType[] { m_right.nodeData.front[0] }))));
+            nodeSpace.Add(new BossDecisionNode(BossHeuristic.Heuristic.WEIGHTED, new BossNodeData(new List<BossNodeType>(new BossNodeType[] { (Random.Range(0, 1) > 0.5f) ? m_left.nodeData.front[0] : m_right.nodeData.front[0] }), new List<BossNodeType>(new BossNodeType[] { m_left.nodeData.front[0] }), new List<BossNodeType>(new BossNodeType[] { m_right.nodeData.front[0] }))));
         }
 
         return nodeSpace;

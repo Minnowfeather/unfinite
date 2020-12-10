@@ -8,6 +8,7 @@ public class BossDecisionNode
     public BossDecisionNode left, right;
     BossSequence sequence;
     public BossNodeData nodeData;
+    public float weight = 0.5f;
 
     public void SetSequence(BossSequence m_sequence)
     {
@@ -44,7 +45,7 @@ public class BossDecisionNode
     //Recursively computes the correct action via flowdown of the DecisionTree.
     public BossAction Evaluate(GameData m_gameData)
     {
-        if (BossHeuristic.Evaluate(m_gameData, heuristic))
+        if (BossHeuristic.Evaluate(m_gameData, heuristic, weight))
         {
             if (left.IsAction())
             {

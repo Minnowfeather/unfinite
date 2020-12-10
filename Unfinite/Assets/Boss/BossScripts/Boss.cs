@@ -21,17 +21,28 @@ public class Boss : MonoBehaviour
     // Start is called before the first frame update.
     void Start()
     {
-        CompileActionSpace();
-        interpreter = GetComponent<BossGameStateInterpreter>();
-        memory = new BossMemory(3);
-        tree = new BossDecisionTree(points);
-              
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void Activate()
+    {
+        CompileActionSpace();
+        interpreter = GetComponent<BossGameStateInterpreter>();
+        memory = new BossMemory(3);
+        tree = new BossDecisionTree(points);
+        memory.NewGame();
+    }
+
+    public void ReActivate()
+    {
+        CompileActionSpace();
+        memory.NewGame();
     }
 
     public int GetHealth()
@@ -47,7 +58,7 @@ public class Boss : MonoBehaviour
         }
         memory.Record(m_sequence);
 
-        Activate();
+        NextAction();
     }
 
     public List<BossAction> actions = new List<BossAction>();
@@ -86,7 +97,7 @@ public class Boss : MonoBehaviour
         tree.GenerateTree(points);
     }
 
-    public void Activate()
+    public void NextAction()
     {
         GameData gameData = interpreter.InterpretGameState();
         currentAction = StartCoroutine(tree.Evaluate(gameData).Act());
