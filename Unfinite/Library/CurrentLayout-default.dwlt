@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 232, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 211
+  controlID: 177
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_MinSize: {x: 333, y: 492}
   m_MaxSize: {x: 14003, y: 14042}
   vertical: 0
-  controlID: 231
+  controlID: 176
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_MinSize: {x: 434, y: 492}
   m_MaxSize: {x: 18004, y: 14042}
   vertical: 1
-  controlID: 229
+  controlID: 129
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_MinSize: {x: 434, y: 492}
   m_MaxSize: {x: 18004, y: 14042}
   vertical: 0
-  controlID: 230
+  controlID: 130
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_LoadedToolbars:
   - {fileID: 24}
   m_MainToolbar: {fileID: 24}
-  m_LastLoadedLayoutName: WizLayout
+  m_LastLoadedLayoutName: 
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -355,7 +355,7 @@ MonoBehaviour:
   m_MinSize: {x: 101, y: 242}
   m_MaxSize: {x: 4001, y: 8042}
   vertical: 1
-  controlID: 160
+  controlID: 131
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -713,21 +713,21 @@ MonoBehaviour:
     m_SkipHidden: 1
     m_SearchArea: 1
     m_Folders:
-    - Assets/Boss
+    - Assets/Boss/BossScripts
     m_Globs: []
   m_ViewMode: 1
   m_StartGridSize: 65
   m_LastFolders:
-  - Assets/Boss
+  - Assets/Boss/BossScripts
   m_LastFoldersGridSize: 65
   m_LastProjectPath: C:\Users\lukas\Documents\GitHub\unfinite\Unfinite
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 98520000
-    m_LastClickedID: 21144
-    m_ExpandedIDs: 000000008e5200009852000000ca9a3b
+    m_SelectedIDs: 983b0000
+    m_LastClickedID: 15256
+    m_ExpandedIDs: 00000000823b0000863b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -755,7 +755,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008e52000000ca9a3b
+    m_ExpandedIDs: 00000000823b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -842,7 +842,7 @@ MonoBehaviour:
     m_CachedPref: 160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 21274
+  m_LastInspectedObjectInstanceID: 12648
   m_LastVerticalScrollValue: 0
   m_AssetGUID: 
   m_InstanceID: 0
@@ -877,9 +877,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ee530000
+      m_SelectedIDs: 68310000
       m_LastClickedID: 0
-      m_ExpandedIDs: 58cdffff12ceffff5cfbffff
+      m_ExpandedIDs: 5cfbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

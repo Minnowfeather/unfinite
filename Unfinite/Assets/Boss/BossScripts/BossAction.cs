@@ -5,7 +5,8 @@ using UnityEngine;
 public class BossAction : BossDecisionNode
 {
     Boss boss;
-    public BossAction(Boss m_boss) : base("none")
+
+    public BossAction(Boss m_boss) : base()
     {
         boss = m_boss;
     }

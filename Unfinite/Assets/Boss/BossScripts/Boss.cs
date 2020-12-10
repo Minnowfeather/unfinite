@@ -51,7 +51,7 @@ public class Boss : MonoBehaviour
         Activate();
     }
 
-    List<BossAction> actions = new List<BossAction>();
+    public List<BossAction> actions = new List<BossAction>();
 
     //This method finds all resources in Resources/BossActions and loads them into an array.
     //It then finds the specific type, the constructor for that class, and invokes the constructor.
@@ -79,7 +79,7 @@ public class Boss : MonoBehaviour
 
     public void Adapt()
     {
-
+        tree.GenerateTree(points);
     }
 
     public void Activate()

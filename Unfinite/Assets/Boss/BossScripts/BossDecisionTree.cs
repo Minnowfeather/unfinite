@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossDecisionTree
 {
-    BossDecisionNode rootNode = new BossDecisionNode("None");
+    BossDecisionNode rootNode = new BossDecisionNode();
 
     public BossDecisionTree(int m_points)
     {
@@ -13,7 +13,41 @@ public class BossDecisionTree
 
     public void GenerateTree(int m_points)
     {
+        if (m_points % 2 != 0)
+        {
+            m_points++;
+        }
 
+        List<BossAction> actionSpace = new List<BossAction>();
+        List<BossAction> possibleActionSpace = Boss.Current().actions;
+        List<BossDecisionNode> layerNodes = new List<BossDecisionNode>();
+        List<BossDecisionNode> newLayerNodes = new List<BossDecisionNode>();
+
+        for (int i = 0; i < m_points; i++)
+        {
+            actionSpace.Add(possibleActionSpace[Random.Range(0, possibleActionSpace.Count)]);
+        }
+
+        foreach (BossAction action in actionSpace)
+        {
+            layerNodes.Add(action);
+        }
+
+        do
+        {
+            for (int i = 0; i < layerNodes.Count; i += 2)
+            {
+                BossDecisionNode node = new BossDecisionNode();
+                List<BossDecisionNode> nodeSpace = BossNodeData.FindMatches(layerNodes[i], layerNodes[i + 1]);
+                node = nodeSpace[Random.Range(0, nodeSpace.Count)];
+                newLayerNodes.Add(node);
+            }
+
+            layerNodes = newLayerNodes;
+
+        } while (layerNodes.Count > 1);
+
+        rootNode = layerNodes[0];
     }
 
     public BossAction Evaluate(GameData m_gameData)

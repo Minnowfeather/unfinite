@@ -33,12 +33,12 @@ public class BossDecisionNode
 
     //A constructor to create a new node.
     //Pass None to specify it as an action.
-    public BossDecisionNode(string m_heuristic)
+    public BossDecisionNode() { }
+
+    public BossDecisionNode(string m_heursitic, BossNodeData m_nodeData) 
     {
-        if (BossHeuristic.ValidateHeuristic(m_heuristic))
-        {
-            heuristic = m_heuristic;
-        }
+        heuristic = m_heursitic;
+        nodeData = m_nodeData;    
     }
 
     //Recursively computes the correct action via flowdown of the DecisionTree.
@@ -61,5 +61,5 @@ public class BossDecisionNode
             }
             return right.Evaluate(m_gameData);
         }
-    }
+    }    
 }
