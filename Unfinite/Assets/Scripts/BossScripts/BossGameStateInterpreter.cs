@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class BossGameStateInterpreter : MonoBehaviour
 {
-    
+    public GameData InterpretGameState()
+    {
+        return new GameData();
+    }
 }
