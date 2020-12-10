@@ -95,6 +95,15 @@ public class Boss : MonoBehaviour
 
         //Currently it just regenrates the tree to cause a tactic change
         tree.GenerateTree(points);
+
+        //Mutate
+
+        //Adapt
+        List<BossSequence> sequences = memory.Read();
+        foreach (BossSequence sequence in sequences)
+        {
+            
+        }
     }
 
     public void NextAction()

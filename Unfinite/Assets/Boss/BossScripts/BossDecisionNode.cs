@@ -43,24 +43,26 @@ public class BossDecisionNode
     }
 
     //Recursively computes the correct action via flowdown of the DecisionTree.
-    public BossAction Evaluate(GameData m_gameData)
+    public BossAction Evaluate(GameData m_gameData, List<BossDecisionNode> path)
     {
+        path.Add(this);
+
         if (BossHeuristic.Evaluate(m_gameData, heuristic, weight))
         {
             if (left.IsAction())
             {
-                left.SetSequence(new BossSequence(m_gameData, (BossAction)left, null));
+                left.SetSequence(new BossSequence(m_gameData, path, null));
                 return (BossAction)left;
             }
-            return left.Evaluate(m_gameData);
+            return left.Evaluate(m_gameData, path);
         } else
         {
             if (right.IsAction())
             {
-                right.SetSequence(new BossSequence(m_gameData, (BossAction)right, null));
+                right.SetSequence(new BossSequence(m_gameData, path, null));
                 return (BossAction)right;
             }
-            return right.Evaluate(m_gameData);
+            return right.Evaluate(m_gameData, path);
         }
     }    
 }

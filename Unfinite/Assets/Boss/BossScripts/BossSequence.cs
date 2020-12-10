@@ -5,19 +5,19 @@ using UnityEngine;
 public class BossSequence
 {
     public GameData preActionData;
-    public BossAction action;
+    public List<BossDecisionNode> path;
     public GameData postActionData;
 
-    public BossSequence(GameData m_preActionData, BossAction m_action, GameData m_postActionData)
+    public BossSequence(GameData m_preActionData, List<BossDecisionNode> m_path, GameData m_postActionData)
     {
         preActionData = m_preActionData;
-        action = m_action;
+        path = m_path;
         postActionData = m_postActionData;
     }
 
     public bool ValidateData()
     {
-        if (preActionData == null || action == null || postActionData == null)
+        if (preActionData == null || path == null || postActionData == null)
         {
             return false;
         } else

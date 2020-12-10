@@ -73,6 +73,6 @@ public class BossDecisionTree
 
     public BossAction Evaluate(GameData m_gameData)
     {
-        return rootNode.Evaluate(m_gameData);
+        return rootNode.Evaluate(m_gameData, new List<BossDecisionNode>());
     }
 }
