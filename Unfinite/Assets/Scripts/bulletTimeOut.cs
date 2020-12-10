@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class bulletTimeOut : MonoBehaviour
 {
-    // Start is called before the first frame update
-    float time;
+    //This float represents how long the bullet will exist
+    //If we decide to object pool bullets this script will need to be removed
+    public float lifeTime;
+
     void Start()
     {
-        time = 0.0f;
+        StartCoroutine(Die());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator Die()
     {
-        time += 0.01f;
-        if(time >= 1f){
-            Destroy(gameObject);
-        }
+        yield return new WaitForSeconds(lifeTime);
+        Destroy(this.gameObject);
     }
+
 }

@@ -6,91 +6,201 @@ using UnityEditor;
 public class generatePatterns : MonoBehaviour
 {
 
-    public GameObject prefab;
-    private bool shant = false;
-    private float dT = 0; 
-    private float sInterval;
-    private float sSpeed;
-    private int sAmount;
-    private int sCount = 0;
-    private float sAngle = 0.0f;
-    private bool sUp = true;
-    private bool poolGenerated = false;
-    private GameObject sBoss;
-    private List<GameObject> pool;
-    private float sOffset;
+    private GameObject boss;
+
+    private List<GameObject> activeLasers, activeCones, activeBulletLines, activeSpinningCircles;
+    public GameObject coneHandler, spinningCircleHandler, laserHandler, bulletLineHandler, bulletPrefab;
 
     void Start()
     {
-        pool = new List<GameObject>();
+        boss = this.gameObject;
+
+        activeCones = new List<GameObject>();
+        activeLasers = new List<GameObject>();
+        activeBulletLines = new List<GameObject>();
+        activeSpinningCircles = new List<GameObject>();
     }
     void Update()
     {
-        if(shant){
-            // LUKAS: PLEASE HELP ME OH GOD WHAT IS THIS
-            while(!poolGenerated){
-                pool.Add(Instantiate(prefab, sBoss.transform.position, new Quaternion(0,0,0,0), sBoss.transform));
-                if(sAmount >= sCount){
-                    poolGenerated = true;
-                    sAmount = 0;
-                }
-            }
-            dT += Time.deltaTime;
-            if(dT >= (sInterval/1000.0f)){
-                if(sAngle <= Mathf.PI/12.0f && sUp){
-                    sAngle += Mathf.PI/60.0f;
-                } else {
-                    sUp = false;
-                    if(sAngle >= -Mathf.PI/12.0f){
-                        sAngle -= Mathf.PI/60.0f;
-                    } else {
-                        sUp = true;
-                    }
-                }
-                print(sAngle);
-                pool[0].GetComponent<vectorMove>().addVelocity(sSpeed, sAngle + sOffset);
-                pool.RemoveAt(0);
-                sAmount++;
-                dT = 0;
-            }
-            if(sCount >= sAmount){
-                sCount = 0;
-                shant = false;
-                poolGenerated = false;
-            }
-        }
         
     }
+
+    /*
+
+        Fire Bullet
+
+        @param boss
+            The boss that the bullet spawns on.
+            Bullet then extends outwards.
+        
+        @param speed
+            How fast the bullet should move.
+            Measured in distance per frame
+        
+        @param direction
+            The angle at which the bullet should fire.
+            Measured in radians.
+
+        @param target
+            The target at which the boss should fire at.
+            This is the position of the target.
+        
+        
+    */
+    public void fireBullet(GameObject boss, float speed, float direction){
+        GameObject temp = Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+        temp.GetComponent<vectorMove>().addVelocity(speed, direction);
+    }
+    public void fireBullet(GameObject boss, float speed, Vector3 target){
+        GameObject temp = Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+        temp.GetComponent<vectorMove>().addVelocity(speed, Vector3.Angle(boss.transform.position, target) * Mathf.Deg2Rad);
+    }
+
+
+    /*
+
+        Circle
+
+        @param boss
+            The boss that the bullets attach themselves to.
+            Bullets spawn on the boss and extend outwards.
+
+        @param quantity
+            The amount of bullets to be made.
+            Bullets are distributed evenly around a circle.
+
+        @param speed
+            The speed of the bullets.
+
+        @param aR
+            The angle at which the laser starts.
+            Default (0) is an angle of 0 degrees pointing straight right.
+
+    */
     public void circle(GameObject boss, int quantity, float speed)
     {
         float dR = (2*Mathf.PI) / quantity;
         for(int i = 0; i < quantity; i++){
-            GameObject temp = Instantiate(prefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+            GameObject temp = Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
             temp.GetComponent<vectorMove>().addVelocity(speed, i*dR);
         }
     }
-    public void circle(GameObject boss, int quantity, float speed, float aR)
+    public void circle(GameObject boss, int quantity, float speed, float offset)
     {
         float dR = (2*Mathf.PI) / quantity;
         for(int i = 0; i < quantity; i++){
-            GameObject temp = Instantiate(prefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
-            temp.GetComponent<vectorMove>().addVelocity(speed, (i*dR)+aR);
+            GameObject temp = Instantiate(bulletPrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+            temp.GetComponent<vectorMove>().addVelocity(speed, (i*dR)+offset);
         }
     }
 
-    public void startCone(GameObject boss, int amount, float interval, float speed, float offset){
-        shant = true;
-        sBoss = boss;
-        sInterval = interval;
-        sSpeed = speed;
-        sAmount = amount;
-        sOffset = offset;
-        // maximum pi/12 radians up pi/12 down
-        //
+    /* 
+        SPINNING CIRCLE
+    */
+    public void spinningCircle(GameObject boss, int quantity, float spawnTime, float distance)
+    {
+        activeSpinningCircles.Add(Instantiate(spinningCircleHandler, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
+        activeSpinningCircles[activeSpinningCircles.Count-1].GetComponent<SpinningCircle>().spinningCircle(activeSpinningCircles[activeSpinningCircles.Count-1], bulletPrefab, quantity, spawnTime, distance);
+    }
+    public void startSpinningCircle(int index, float rotationSpeed)
+    {
+        activeSpinningCircles[index].GetComponent<SpinningCircle>().start(rotationSpeed);
+    }
+    public void stopSpinningCircle(int index){
+        activeSpinningCircles[index].GetComponent<SpinningCircle>().stop();
+    }
+    public void despawnSpinningCircle(int index){
+        activeSpinningCircles[index].GetComponent<SpinningCircle>().despawn();
+        activeSpinningCircles.RemoveAt(index);
     }
 
-    private void coneNext(){
+    /*
+    BULLET LINE
+    */
+    public void bulletLine(GameObject boss, int quantityLines, int quantityBullets, float spacing, float spawnTime, float offset)
+    {
+        activeBulletLines.Add(Instantiate(bulletLineHandler, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
+        activeBulletLines[activeBulletLines.Count-1].GetComponent<BulletLine>().bulletLine(activeBulletLines[activeBulletLines.Count-1], bulletPrefab, quantityLines, quantityBullets, spacing, spawnTime, offset);
+    }
+    public void startBulletLineRotation(int index, float rotationSpeed){
+        activeBulletLines[index].GetComponent<BulletLine>().startBulletLineRotation(rotationSpeed);
+    }
+    public void stopBulletLineRotation(int index){
+        activeBulletLines[index].GetComponent<BulletLine>().stopBulletLineRotation();
+    }
+    public void despawnBulletLine(int index){
+        activeBulletLines[index].GetComponent<BulletLine>().despawn();
+        activeBulletLines.RemoveAt(index);
+    }
 
+
+    /*
+    CONE
+    */
+    public void cone(GameObject boss, int quantity, float interval, float speed, float offset, float rotationSpeed, float spread){
+        activeCones.Add(Instantiate(coneHandler, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
+        activeCones[activeCones.Count-1].GetComponent<Cone>().cone(activeCones[activeCones.Count-1], bulletPrefab, quantity, interval, speed, offset, rotationSpeed, spread);
+    }
+    public void startCone(GameObject boss, float interval, float speed, float offset, float rotationSpeed, float spread){
+        activeCones.Add(Instantiate(coneHandler, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
+        activeCones[activeCones.Count-1].GetComponent<Cone>().startCone(activeCones[activeCones.Count-1], bulletPrefab, interval, speed, offset, rotationSpeed, spread);
+    }
+    public void stopCone(int index){
+        activeCones[index].GetComponent<Cone>().stopCone();
+    }
+    public void setConeOffset(int index, float offset){
+        activeCones[index].GetComponent<Cone>().setConeOffset(offset);
+    }
+    public void setConeInterval(int index, float interval){
+        activeCones[index].GetComponent<Cone>().setConeInterval(interval);
+    }
+    public void setConeSpeed(int index, float speed){
+        activeCones[index].GetComponent<Cone>().setConeSpeed(speed);
+    }
+    public void setConeRotationSpeed(int index, float rotationSpeed){
+        activeCones[index].GetComponent<Cone>().setConeRotationSpeed(rotationSpeed);
+    }
+    public void setConeSpread(int index, float spread){
+        activeCones[index].GetComponent<Cone>().setConeSpread(spread);
+    }
+    public void despawnCone(int index){
+        activeCones[index].GetComponent<Cone>().despawn();
+        activeCones.RemoveAt(index);
+    }
+
+
+    /* 
+    LASER
+    */
+
+    // spawn a laser
+    public void laser(GameObject boss, int quantity, float spawnTime, float rotationSpeed, float offset, float length)
+    {
+        activeLasers.Add(Instantiate(laserHandler, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
+        activeLasers[activeLasers.Count-1].GetComponent<SpinningLaser>().laser(activeLasers[activeLasers.Count-1], quantity, spawnTime, rotationSpeed, offset, length);
+    }
+    public void startLaser(GameObject boss, int quantity, float spawnTime, float rotationSpeed, float offset, float length){
+        activeLasers.Add(Instantiate(laserHandler, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
+        activeLasers[activeLasers.Count-1].GetComponent<SpinningLaser>().startLaser(activeLasers[activeLasers.Count-1], quantity, spawnTime, rotationSpeed, offset, length);
+    }
+    // public void stopLaser(int index){
+    //     activeLasers[index].GetComponent<SpinningLaser>().stop();
+    // }
+    public void pauseLaser(int index){
+        activeLasers[index].GetComponent<SpinningLaser>().pause();
+    }
+    public void resumeLaser(int index){
+        activeLasers[index].GetComponent<SpinningLaser>().resume();
+    }
+    public void setLaserOffset(int index, float offset){
+        activeLasers[index].GetComponent<SpinningLaser>().setOffset(offset);
+    }
+    public void setLaserRotationSpeed(int index, float speed){
+        activeLasers[index].GetComponent<SpinningLaser>().setRotationSpeed(speed);
+    }
+    public void despawnLaser(int index){
+        activeLasers[index].GetComponent<SpinningLaser>().despawn();
+        activeLasers.RemoveAt(index);
     }
 
 }

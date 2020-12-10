@@ -59,4 +59,5 @@ sysinfo.txt
 crashlytics-build.properties
 
 
-*.dll
+**/*.dll
+/Unfinite/Library/Artifacts/*
