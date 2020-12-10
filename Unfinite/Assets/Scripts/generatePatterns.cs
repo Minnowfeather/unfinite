@@ -11,7 +11,6 @@ public class generatePatterns : MonoBehaviour
     private List<GameObject> activeLasers, activeCones, activeBulletLines, activeSpinningCircles;
     public GameObject coneHandler, spinningCircleHandler, laserHandler, bulletLineHandler, bulletPrefab;
 
-    private float start = 0.0f;
     void Start()
     {
         boss = this.gameObject;
@@ -19,6 +18,7 @@ public class generatePatterns : MonoBehaviour
         activeCones = new List<GameObject>();
         activeLasers = new List<GameObject>();
         activeBulletLines = new List<GameObject>();
+        activeSpinningCircles = new List<GameObject>();
     }
     void Update()
     {

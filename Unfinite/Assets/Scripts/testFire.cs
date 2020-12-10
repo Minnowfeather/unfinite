@@ -58,12 +58,12 @@ public class testFire : MonoBehaviour
             p.resumeLaser(0);
             p.startSpinningCircle(0,rotationSpeed);
         }
-        p.setConeOffset(0, dR);
-        p.setConeInterval(0, interval);
-        p.setConeSpeed(0, speed);
-        p.setConeRotationSpeed(0, rotationSpeed);
-        p.setConeSpread(0, spread);
-        p.setLaserOffset(0, dR);
-        p.setLaserRotationSpeed(0, rotationSpeed);
+        // p.setConeOffset(0, dR);
+        // p.setConeInterval(0, interval);
+        // p.setConeSpeed(0, speed);
+        // p.setConeRotationSpeed(0, rotationSpeed);
+        // p.setConeSpread(0, spread);
+        // p.setLaserOffset(0, dR);
+        // p.setLaserRotationSpeed(0, rotationSpeed);
     }
 }

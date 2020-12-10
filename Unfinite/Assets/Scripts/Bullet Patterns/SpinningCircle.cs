@@ -13,12 +13,14 @@ public class SpinningCircle : MonoBehaviour
     public void spinningCircle(GameObject boss, GameObject bulletPrefab, int quantity, float spawnTime, float distance)
     {
         spinningCirclePivotPoint = Instantiate(spinningCirclePrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
+        print(spinningCirclePivotPoint);
         spinningCircle_active = true;
         spinningCircle_quantity = quantity;
         spinningCircle_spawnTime = spawnTime;
         spinningCircle_distance = distance;
         for(int i = 0; i < quantity; i++){
             spinningCircle_pool.Add(Instantiate(bulletPrefab, spinningCirclePivotPoint.transform.position, new Quaternion(0,0,0,0), spinningCirclePivotPoint.transform));
+            print("not ya boi");
             spinningCircle_pool[i].GetComponent<vectorMove>().addVelocity(distance/(10000.0f/spinningCircle_spawnTime), (i*2*Mathf.PI)/spinningCircle_quantity, 1000/(10000.0f/spinningCircle_spawnTime));
         }
     }
