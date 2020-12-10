@@ -12,6 +12,7 @@ public class SpinningCircle : MonoBehaviour
     private List<GameObject> spinningCircle_pool;
     public void spinningCircle(GameObject boss, GameObject bulletPrefab, int quantity, float spawnTime, float distance)
     {
+        spinningCircle_pool = new List<GameObject>(); //My guy you need to actually instantiate the list before populating it
         spinningCirclePivotPoint = Instantiate(spinningCirclePrefab, boss.transform.position, new Quaternion(0,0,0,0), boss.transform);
         print(spinningCirclePivotPoint);
         spinningCircle_active = true;
@@ -20,7 +21,6 @@ public class SpinningCircle : MonoBehaviour
         spinningCircle_distance = distance;
         for(int i = 0; i < quantity; i++){
             spinningCircle_pool.Add(Instantiate(bulletPrefab, spinningCirclePivotPoint.transform.position, new Quaternion(0,0,0,0), spinningCirclePivotPoint.transform));
-            print("not ya boi");
             spinningCircle_pool[i].GetComponent<vectorMove>().addVelocity(distance/(10000.0f/spinningCircle_spawnTime), (i*2*Mathf.PI)/spinningCircle_quantity, 1000/(10000.0f/spinningCircle_spawnTime));
         }
     }
