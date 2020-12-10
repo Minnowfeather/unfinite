@@ -41,6 +41,9 @@ public class vectorMove : MonoBehaviour
     public float getVelocity(){
         return (Mathf.Sqrt((dx*dx) + (dy*dy)));
     }
+    public float getDirection(){
+        return angle;
+    }
 
     // Update is called once per frame
     void Update()

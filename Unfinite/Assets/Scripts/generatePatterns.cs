@@ -8,8 +8,8 @@ public class generatePatterns : MonoBehaviour
 
     private GameObject boss;
 
-    private List<GameObject> activeLasers, activeCones, activeBulletLines, activeSpinningCircles;
-    public GameObject coneHandler, spinningCircleHandler, laserHandler, bulletLineHandler, bulletPrefab;
+    private List<GameObject> activeLasers, activeCones, activeBulletLines, activeSpinningCircles, activeMovingCircles;
+    public GameObject coneHandler, spinningCircleHandler, laserHandler, bulletLineHandler, movingCircleHandler, bulletPrefab;
 
     void Start()
     {
@@ -19,6 +19,7 @@ public class generatePatterns : MonoBehaviour
         activeLasers = new List<GameObject>();
         activeBulletLines = new List<GameObject>();
         activeSpinningCircles = new List<GameObject>();
+        activeMovingCircles = new List<GameObject>();
     }
     void Update()
     {
@@ -112,6 +113,36 @@ public class generatePatterns : MonoBehaviour
     public void despawnSpinningCircle(int index){
         activeSpinningCircles[index].GetComponent<SpinningCircle>().despawn();
         activeSpinningCircles.RemoveAt(index);
+    }
+
+    /*
+        MOVING CIRCLE
+    */
+    public void movingCircle(GameObject boss, int quantity, float distance, float speed, float direction, float rotationSpeed){
+        activeMovingCircles.Add(Instantiate(movingCircleHandler, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
+        activeMovingCircles[activeMovingCircles.Count-1].GetComponent<MovingCircle>().movingCircle(activeMovingCircles[activeMovingCircles.Count-1], bulletPrefab, quantity, distance, speed, direction, rotationSpeed);
+    }
+    public void setMovingCircleSpeed(int index, float speed){
+        activeMovingCircles[index].GetComponent<MovingCircle>().setSpeed(speed);
+    }
+    public void setMovingCircleDirection(int index, float direction){
+        activeMovingCircles[index].GetComponent<MovingCircle>().setDirection(direction);
+    }
+    public void setMovingCircleVector(int index, float speed, float direction){
+        activeMovingCircles[index].GetComponent<MovingCircle>().setVector(speed, direction);
+    }
+    public void startMovingCircleRotation(int index){
+        activeMovingCircles[index].GetComponent<MovingCircle>().enableRotation();
+    }
+    public void startMovingCircleRotation(int index, float rotationSpeed){
+        activeMovingCircles[index].GetComponent<MovingCircle>().enableRotation(true, rotationSpeed);
+    }
+    public void stopMovingCircleRotation(int index){
+        activeMovingCircles[index].GetComponent<MovingCircle>().stopRotation();
+    }
+    public void despawnMovingCircle(int index){
+        activeMovingCircles[index].GetComponent<MovingCircle>().despawn();
+        activeMovingCircles.RemoveAt(index);
     }
 
     /*

@@ -13,7 +13,7 @@ public class testFire : MonoBehaviour
     public float rotationSpeed = 0.0f;
     public float spread = Mathf.PI/12.0f;
     public int prongs = 4;
-    public bool circle, cone, laser, bulletLine, aim, spinningCircle = false;
+    public bool circle, cone, laser, bulletLine, aim, spinningCircle, movingCircle = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +43,9 @@ public class testFire : MonoBehaviour
             if(spinningCircle){
                 p.spinningCircle(g, amount, 1000.0f, 12.5f);
             }
+            if(movingCircle){
+                p.movingCircle(g, amount, 5f, speed, dR, rotationSpeed);
+            }
         }
         if(Input.GetKeyDown("[3]")){
             if(cone){
@@ -57,6 +60,9 @@ public class testFire : MonoBehaviour
             if(bulletLine){
                 p.despawnBulletLine(0);
             }
+            if(movingCircle){
+                p.despawnMovingCircle(0);
+            }
         }
         if(Input.GetKeyDown("[2]")){
             if(spinningCircle){
@@ -68,6 +74,9 @@ public class testFire : MonoBehaviour
             if(bulletLine){
                 p.stopBulletLineRotation(0);
             }
+            if(movingCircle){
+                p.stopMovingCircleRotation(0);
+            }
         }
         if(Input.GetKeyDown("[5]")){
             if(spinningCircle){
@@ -78,6 +87,9 @@ public class testFire : MonoBehaviour
             }
             if(bulletLine){
                 p.startBulletLineRotation(0, rotationSpeed);
+            }
+            if(movingCircle){
+                p.startMovingCircleRotation(0, rotationSpeed);
             }
         }
         // p.setConeOffset(0, dR);
