@@ -13,7 +13,7 @@ public class BossAction : BossDecisionNode
 
     public virtual IEnumerator Act()
     {
-        End();
+        //End();
         yield return null;
     }
 

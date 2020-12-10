@@ -13,9 +13,9 @@ public class BossDecisionTree
 
     public void GenerateTree(int m_points)
     {
-        if (m_points % 2 != 0)
+        if (m_points < 2)
         {
-            m_points++;
+            m_points = 2;
         }
 
         List<BossAction> actionSpace = new List<BossAction>();
@@ -35,15 +35,36 @@ public class BossDecisionTree
 
         do
         {
-            for (int i = 0; i < layerNodes.Count; i += 2)
+            newLayerNodes = new List<BossDecisionNode>();
+
+            if (layerNodes.Count % 2 == 0)
             {
-                BossDecisionNode node = new BossDecisionNode();
-                List<BossDecisionNode> nodeSpace = BossNodeData.FindMatches(layerNodes[i], layerNodes[i + 1]);
-                node = nodeSpace[Random.Range(0, nodeSpace.Count)];
-                newLayerNodes.Add(node);
+                for (int i = 0; i < layerNodes.Count - 1; i += 2)
+                {
+                    List<BossDecisionNode> nodeSpace = BossNodeData.FindMatches(layerNodes[i], layerNodes[i + 1]);
+                    BossDecisionNode node = nodeSpace[Random.Range(0, nodeSpace.Count)];
+                    node.left = layerNodes[i];
+                    node.right = layerNodes[i + 1];
+                    newLayerNodes.Add(node);
+                }
+
+                layerNodes = newLayerNodes;
+            } else
+            {
+                for (int i = 0; i < layerNodes.Count - 2; i += 2)
+                {
+                    List<BossDecisionNode> nodeSpace = BossNodeData.FindMatches(layerNodes[i], layerNodes[i + 1]);
+                    BossDecisionNode node = nodeSpace[Random.Range(0, nodeSpace.Count)];
+                    node.left = layerNodes[i];
+                    node.right = layerNodes[i + 1];
+                    newLayerNodes.Add(node);
+                }
+
+                newLayerNodes.Add(layerNodes[layerNodes.Count - 1]);
+                layerNodes = newLayerNodes;                
             }
 
-            layerNodes = newLayerNodes;
+            Debug.Log(layerNodes.Count);
 
         } while (layerNodes.Count > 1);
 

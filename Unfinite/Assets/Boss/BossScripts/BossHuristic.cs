@@ -7,6 +7,7 @@ public static class BossHeuristic
     public enum Heuristic
     {
         NONE,
+        RANDOM,
         CLOSE
     }
 
@@ -18,6 +19,8 @@ public static class BossHeuristic
         switch (m_heuristic) {
             case Heuristic.NONE:
                 return false;
+            case Heuristic.RANDOM:
+                return Random.Range(0, 1) > 0.5f;
             case Heuristic.CLOSE:
                 if (Vector2.Distance(m_gameData.bossPosition, m_gameData.playerPosition) < CLOSERANGE) { return true; } else { return false; }
         

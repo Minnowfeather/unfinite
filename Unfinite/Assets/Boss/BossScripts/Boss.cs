@@ -9,7 +9,7 @@ public class Boss : MonoBehaviour
     public BossGameStateInterpreter interpreter;
     BossMemory memory;
     BossDecisionTree tree;
-    public int points;
+    public int points = 2;
     Coroutine currentAction;
     int health;
 
@@ -21,12 +21,11 @@ public class Boss : MonoBehaviour
     // Start is called before the first frame update.
     void Start()
     {
-        points = 1;
-
+        CompileActionSpace();
         interpreter = GetComponent<BossGameStateInterpreter>();
         memory = new BossMemory(3);
         tree = new BossDecisionTree(points);
-        CompileActionSpace();        
+              
     }
 
     // Update is called once per frame

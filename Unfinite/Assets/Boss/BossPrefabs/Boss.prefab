@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8309083146955529322}
   - component: {fileID: 8309083146955529323}
+  - component: {fileID: 7456547362096825703}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -44,4 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interpreter: {fileID: 0}
-  points: 0
+  points: 2
+--- !u!114 &7456547362096825703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8309083146955529320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba7a1617c97c1584393e39543e65e5bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

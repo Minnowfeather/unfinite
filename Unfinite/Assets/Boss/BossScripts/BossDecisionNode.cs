@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossDecisionNode
 {
     BossHeuristic.Heuristic heuristic;
-    BossDecisionNode left, right;
+    public BossDecisionNode left, right;
     BossSequence sequence;
     public BossNodeData nodeData;
 
