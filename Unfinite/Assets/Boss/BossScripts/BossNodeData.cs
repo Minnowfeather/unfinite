@@ -53,7 +53,7 @@ public class BossNodeData
     }
 
     public static List<BossDecisionNode> nodeSpace = new List<BossDecisionNode>(new BossDecisionNode[] {
-        new BossDecisionNode(BossHeuristic.Heuristic.CLOSE, new BossNodeData(new List<BossNodeType>(new BossNodeType[] {}), new List<BossNodeType>(new BossNodeType[] {}), new List<BossNodeType>(new BossNodeType[] {})))
+        //new BossDecisionNode(BossHeuristic.Heuristic.CLOSE, new BossNodeData(new List<BossNodeType>(new BossNodeType[] {}), new List<BossNodeType>(new BossNodeType[] {}), new List<BossNodeType>(new BossNodeType[] {})))
 
     });
 }

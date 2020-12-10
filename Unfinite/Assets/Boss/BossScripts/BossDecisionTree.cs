@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossDecisionTree
 {
-    BossDecisionNode rootNode = new BossDecisionNode();
+    public BossDecisionNode rootNode = new BossDecisionNode();
 
     public BossDecisionTree(int m_points)
     {

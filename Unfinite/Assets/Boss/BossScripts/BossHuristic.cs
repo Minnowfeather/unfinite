@@ -32,7 +32,7 @@ public static class BossHeuristic
             case Heuristic.NONE:
                 return false;
             case Heuristic.WEIGHTED:
-                return Random.Range(0, 1) > m_weight;
+                return Random.Range(0, 1.00f) < m_weight;
             case Heuristic.CLOSE:
                 if (Vector2.Distance(m_gameData.bossPosition, m_gameData.playerPosition) < CLOSERANGE) { return true; } else { return false; }
         

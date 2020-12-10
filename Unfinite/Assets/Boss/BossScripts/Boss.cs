@@ -88,6 +88,7 @@ public class Boss : MonoBehaviour
     }
 
     const float WEIGHTCHANGE = 0.1f;
+    const float MUTATIONCHANCE = 0.1f;
 
     public void Adapt()
     {
@@ -96,9 +97,7 @@ public class Boss : MonoBehaviour
         //This will need to evaluate which actions achieved the best results, then tune the decisionNode's heuristics to better suit the actions
 
         //Currently it just regenrates the tree to cause a tactic change
-        tree.GenerateTree(points);
-
-        //Mutate
+        //tree.GenerateTree(points);      
 
         //Adapt
         List<BossSequence> sequences = memory.Read();
@@ -106,13 +105,54 @@ public class Boss : MonoBehaviour
         {
             if (BossHeuristic.Evaluate(sequence))
             {
-                foreach (BossDecisionNode node in sequence.path)
+                for (int i = 0; i < sequence.path.Count - 1; i++)
                 {
-                    if (node.heuristic == BossHeuristic.Heuristic.WEIGHTED)
+                    if (sequence.path[i].heuristic == BossHeuristic.Heuristic.WEIGHTED)
                     {
-                        node.weight += WEIGHTCHANGE;
+                        if (sequence.path[i].left == sequence.path[i + 1])
+                        {
+                            sequence.path[i].weight += WEIGHTCHANGE;
+                        } else
+                        {
+                            sequence.path[i].weight += WEIGHTCHANGE;
+                        }
                     }
                 }
+            }
+        }
+
+        //Mutate
+        Mutate(tree.rootNode);
+    }
+
+    public void Mutate(BossDecisionNode node)
+    {
+        if (UnityEngine.Random.Range(0, 1.00f) <= MUTATIONCHANCE)
+        {
+            List<BossDecisionNode> matches = BossNodeData.FindMatches(node.left, node.right);
+
+            node.heuristic = matches[UnityEngine.Random.Range(0, matches.Count)].heuristic;
+        }
+
+        if (node.left.heuristic != BossHeuristic.Heuristic.NONE)
+        {
+            Mutate(node.left);
+        } else
+        {
+            if (UnityEngine.Random.Range(0, 1.00f) <= MUTATIONCHANCE)
+            {
+                node.left = actions[UnityEngine.Random.Range(0, actions.Count)];
+            }
+        }
+
+        if (node.right.heuristic != BossHeuristic.Heuristic.NONE)
+        {
+            Mutate(node.right);
+        } else
+        {
+            if (UnityEngine.Random.Range(0, 1.00f) <= MUTATIONCHANCE)
+            {
+                node.right = actions[UnityEngine.Random.Range(0, actions.Count)];
             }
         }
     }
