@@ -79,6 +79,11 @@ public class Boss : MonoBehaviour
 
     public void Adapt()
     {
+        //==TODO==
+        //Implement mutation algorithm
+        //This will need to evaluate which actions achieved the best results, then tune the decisionNode's heuristics to better suit the actions
+
+        //Currently it just regenrates the tree to cause a tactic change
         tree.GenerateTree(points);
     }
 

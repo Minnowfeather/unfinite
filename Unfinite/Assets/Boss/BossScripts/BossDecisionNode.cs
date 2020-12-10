@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossDecisionNode
 {
-    string heuristic = "none";
+    BossHeuristic.Heuristic heuristic;
     BossDecisionNode left, right;
     BossSequence sequence;
     public BossNodeData nodeData;
@@ -22,7 +22,7 @@ public class BossDecisionNode
     //Checks to see if the node is an action.
     public bool IsAction()
     {
-        if (heuristic == "none")
+        if (heuristic == BossHeuristic.Heuristic.NONE)
         {
             return true;
         } else
@@ -35,7 +35,7 @@ public class BossDecisionNode
     //Pass None to specify it as an action.
     public BossDecisionNode() { }
 
-    public BossDecisionNode(string m_heursitic, BossNodeData m_nodeData) 
+    public BossDecisionNode(BossHeuristic.Heuristic m_heursitic, BossNodeData m_nodeData) 
     {
         heuristic = m_heursitic;
         nodeData = m_nodeData;    

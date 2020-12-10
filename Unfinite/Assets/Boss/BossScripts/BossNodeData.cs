@@ -38,14 +38,17 @@ public class BossNodeData
                 }
             }
 
-            nodeSpace.Add(node);
+            if (add)
+            {
+                nodeSpace.Add(node);
+            }
         }
 
         return nodeSpace;
     }
 
     public static List<BossDecisionNode> nodeSpace = new List<BossDecisionNode>(new BossDecisionNode[] {
-        new BossDecisionNode("close", new BossNodeData(new List<BossNodeType>(new BossNodeType[] {}), new List<BossNodeType>(new BossNodeType[] {}), new List<BossNodeType>(new BossNodeType[] {})))
+        new BossDecisionNode(BossHeuristic.Heuristic.CLOSE, new BossNodeData(new List<BossNodeType>(new BossNodeType[] {}), new List<BossNodeType>(new BossNodeType[] {}), new List<BossNodeType>(new BossNodeType[] {})))
 
     });
 }
