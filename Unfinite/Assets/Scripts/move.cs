@@ -25,11 +25,8 @@ public class move : MonoBehaviour
         if (Input.GetAxis("Fire1") == 1)
         {
             GameObject clone = Instantiate(bullet, transform.position, Quaternion.identity);
-            clone.AddComponent<Rigidbody2D>();
-            (clone.GetComponent(typeof(Rigidbody2D)) as Rigidbody2D).gravityScale = gravity;
-            clone.AddComponent<bulletMover>();
-            (clone.GetComponent(typeof(bulletMover)) as bulletMover).input_position = transform.position;
-            (clone.GetComponent(typeof(bulletMover)) as bulletMover).mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var change_input = clone.GetComponent("bulletMover") as bulletMover;
+            change_input.input_position = transform.position;
         }
 
     }
