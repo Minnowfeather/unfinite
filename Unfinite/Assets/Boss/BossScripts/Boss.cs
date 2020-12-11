@@ -21,7 +21,7 @@ public class Boss : MonoBehaviour
     // Start is called before the first frame update.
     void Start()
     {
-        
+        Activate();
     }
 
     // Update is called once per frame
@@ -37,12 +37,16 @@ public class Boss : MonoBehaviour
         memory = new BossMemory(3);
         tree = new BossDecisionTree(points);
         memory.NewGame();
+        tree.PrintTree(tree.rootNode);
+        StartCoroutine(tree.Evaluate(interpreter.InterpretGameState()).Act());
     }
 
     public void ReActivate()
     {
         CompileActionSpace();
         memory.NewGame();
+        tree.PrintTree(tree.rootNode);
+        StartCoroutine(tree.Evaluate(interpreter.InterpretGameState()).Act());
     }
 
     public int GetHealth()
@@ -81,6 +85,26 @@ public class Boss : MonoBehaviour
         }            
     }
 
+    public List<BossAction> requiredActions = new List<BossAction>();
+
+    //This method finds all resources in Resources/BossActions and loads them into an array.
+    //It then finds the specific type, the constructor for that class, and invokes the constructor.
+    //Finally it takes the created instance and adds it to the actions list.
+    public void CompileRequiredActionSpace()
+    {
+        actions = new List<BossAction>();
+
+        Type[] parameters = new Type[1];
+        parameters[0] = typeof(Boss);
+        object[] inputs = new object[1];
+        inputs[0] = this;
+
+        foreach (UnityEngine.Object A in Resources.LoadAll("RequiredBossActions"))
+        {
+            actions.Add((BossAction)Type.GetType(A.name).GetConstructor(parameters).Invoke(inputs));
+        }
+    }
+
     public void Terminate()
     {
         StopCoroutine(currentAction);
@@ -99,27 +123,29 @@ public class Boss : MonoBehaviour
         //Currently it just regenrates the tree to cause a tactic change
         //tree.GenerateTree(points);      
 
+        
         //Adapt
         List<BossSequence> sequences = memory.Read();
-        foreach (BossSequence sequence in sequences)
+        for (int i = 1; i < sequences.Count - 2; i++)
         {
-            if (BossHeuristic.Evaluate(sequence))
+            if (BossHeuristic.Evaluate(sequences[i - 1]) || BossHeuristic.Evaluate(sequences[i]) || BossHeuristic.Evaluate(sequences[i + 1]))
             {
-                for (int i = 0; i < sequence.path.Count - 1; i++)
+                for (int j = 0; j < sequences[i].path.Count - 1; j++)
                 {
-                    if (sequence.path[i].heuristic == BossHeuristic.Heuristic.WEIGHTED)
+                    if (sequences[i].path[j].heuristic == BossHeuristic.Heuristic.WEIGHTED)
                     {
-                        if (sequence.path[i].left == sequence.path[i + 1])
+                        if (sequences[i].path[j].left == sequences[i].path[j + 1])
                         {
-                            sequence.path[i].weight += WEIGHTCHANGE;
+                            sequences[i].path[j].weight += WEIGHTCHANGE;
                         } else
                         {
-                            sequence.path[i].weight += WEIGHTCHANGE;
+                            sequences[i].path[j].weight += WEIGHTCHANGE;
                         }
                     }
                 }
             }
         }
+        
 
         //Mutate
         Mutate(tree.rootNode);

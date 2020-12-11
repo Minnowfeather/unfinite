@@ -11,6 +11,9 @@ public class BossAction1 : BossAction
 
     public override IEnumerator Act()
     {
+        Debug.Log("Action 1");
+
+        yield return new WaitForSeconds(1f);
 
         base.End();
         yield return null;

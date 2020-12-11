@@ -20,12 +20,18 @@ public class BossDecisionTree
 
         List<BossAction> actionSpace = new List<BossAction>();
         List<BossAction> possibleActionSpace = Boss.Current().actions;
+        List<BossAction> requiredActionSpace = Boss.Current().requiredActions;
         List<BossDecisionNode> layerNodes = new List<BossDecisionNode>();
         List<BossDecisionNode> newLayerNodes = new List<BossDecisionNode>();
 
         for (int i = 0; i < m_points; i++)
         {
             actionSpace.Add(possibleActionSpace[Random.Range(0, possibleActionSpace.Count)]);
+        }
+
+        foreach (BossAction A in requiredActionSpace)
+        {
+            actionSpace.Add(A);
         }
 
         foreach (BossAction action in actionSpace)
@@ -64,8 +70,6 @@ public class BossDecisionTree
                 layerNodes = newLayerNodes;                
             }
 
-            Debug.Log(layerNodes.Count);
-
         } while (layerNodes.Count > 1);
 
         rootNode = layerNodes[0];
@@ -74,5 +78,17 @@ public class BossDecisionTree
     public BossAction Evaluate(GameData m_gameData)
     {
         return rootNode.Evaluate(m_gameData, new List<BossDecisionNode>());
+    }
+
+    public void PrintTree(BossDecisionNode node)
+    {
+        Debug.Log(node);
+        if (node.heuristic == BossHeuristic.Heuristic.NONE)
+        {
+            return;
+        }
+
+        PrintTree(node.left);
+        PrintTree(node.right);
     }
 }
