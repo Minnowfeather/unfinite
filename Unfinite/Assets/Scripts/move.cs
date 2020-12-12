@@ -8,7 +8,7 @@ public class move : MonoBehaviour
     public float speed = 15f;  // The speed the player travels at
     public GameObject bullet;  // The prefab of the bullet (shooty shooty pew pew bang bang)
     
-    void Start()
+    void Start() // This is nothing but a comment, carry on 
     {
         rb = GetComponent<Rigidbody2D>(); // Grabs the 2D component of the Rigidbody
     }
