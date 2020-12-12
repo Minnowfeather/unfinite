@@ -1,5 +1,9 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Boss/BossTestScene.unity
+=======
+- path: Assets/For the Starting Screen/StartingScreen.unity
+>>>>>>> c3ca347710ba35b5e2dad3b8aeaab413e2dd1090
   isLoaded: 1
   isActive: 1
   isSubScene: 0
