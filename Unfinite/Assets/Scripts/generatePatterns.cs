@@ -8,8 +8,8 @@ public class generatePatterns : MonoBehaviour
 
     private GameObject boss;
 
-    private List<GameObject> activeLasers, activeCones, activeBulletLines, activeSpinningCircles, activeMovingCircles;
-    public GameObject coneHandler, spinningCircleHandler, laserHandler, bulletLineHandler, movingCircleHandler, bulletPrefab;
+    private List<GameObject> activeLasers, activeCones, activeBulletLines, activeSpinningCircles, activeMovingCircles, activeMovingTriangles;
+    public GameObject coneHandler, spinningCircleHandler, laserHandler, bulletLineHandler, movingCircleHandler, movingTriangleHandler, bulletPrefab;
 
     void Start()
     {
@@ -20,6 +20,7 @@ public class generatePatterns : MonoBehaviour
         activeBulletLines = new List<GameObject>();
         activeSpinningCircles = new List<GameObject>();
         activeMovingCircles = new List<GameObject>();
+        activeMovingTriangles = new List<GameObject>();
     }
     void Update()
     {
@@ -143,6 +144,14 @@ public class generatePatterns : MonoBehaviour
     public void despawnMovingCircle(int index){
         activeMovingCircles[index].GetComponent<MovingCircle>().despawn();
         activeMovingCircles.RemoveAt(index);
+    }
+
+    /*
+        MOVING TRIANGLE
+    */
+    public void movingTriangle(GameObject boss, int quantity, float width, float height, float speed, float direction){
+        activeMovingTriangles.Add(Instantiate(movingTriangleHandler, boss.transform.position, new Quaternion(0,0,0,0), boss.transform));
+        activeMovingTriangles[activeMovingTriangles.Count-1].GetComponent<MovingTriangle>().movingTriangle(bulletPrefab, quantity, width, height, speed, direction);
     }
 
     /*
