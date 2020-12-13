@@ -27,6 +27,27 @@ public class generatePatterns : MonoBehaviour
         
     }
 
+    public int getAmountActiveCones(){
+        return activeCones.Count;
+    }
+    public int getAmountActiveLasers(){
+        return activeLasers.Count;
+    }
+    public int getAmountActiveBulletLines(){
+        return activeBulletLines.Count;
+    }
+    public int getAmountActiveSpinningCircles(){
+        return activeSpinningCircles.Count;
+    }
+    public int getAmountActiveMovingCircles(){
+        return activeMovingCircles.Count;
+    }
+    public int getAmountActiveMovingTriangles(){
+        return activeMovingTriangles.Count;
+    }
+
+
+
     /*
 
         Fire Bullet
