@@ -515,10 +515,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1968130946}
+  - component: {fileID: 1968130944}
   - component: {fileID: 1968130945}
   - component: {fileID: 1968130943}
   - component: {fileID: 1968130947}
-  - component: {fileID: 1968130944}
   m_Layer: 0
   m_Name: leveringpog
   m_TagString: Untagged

@@ -22,7 +22,7 @@ public class BossOrbit : MonoBehaviour
 
             for (int i = 0; i < objects.Count; i++)
             {
-                objects[i].transform.position = new Vector2(Mathf.Cos(Mathf.Deg2Rad * i * angleBetween), Mathf.Sin(Mathf.Deg2Rad * i * angleBetween)) * orbitDistance;
+                objects[i].transform.position = (new Vector2(Mathf.Cos(Mathf.Deg2Rad * i * angleBetween), Mathf.Sin(Mathf.Deg2Rad * i * angleBetween)) * orbitDistance) + (Vector2)transform.parent.position;
             }
             oldCount = orbitCount;
         }
@@ -37,7 +37,7 @@ public class BossOrbit : MonoBehaviour
                 theta += 180;
             }
             theta += orbitSpeed;
-            Vector2 newPos = new Vector2(Mathf.Cos(Mathf.Deg2Rad * theta), Mathf.Sin(Mathf.Deg2Rad * theta)) * orbitDistance;
+            Vector2 newPos = (new Vector2(Mathf.Cos(Mathf.Deg2Rad * theta), Mathf.Sin(Mathf.Deg2Rad * theta)) * orbitDistance) + (Vector2)transform.parent.position;
             obj.transform.position = newPos;
         }
     }
