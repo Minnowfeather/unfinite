@@ -16,7 +16,7 @@ public class aim : BossAction
     {
         Debug.Log("aim");
 
-        crystal = boss.Current().gameObject.transform.getChild(index);
+        crystal = boss.gameObject.transform.GetChild(index).gameObject;
         crystal.GetComponent<generatePatterns>().fireBullet(crystal, speed, dR);
         
         yield return new WaitForSeconds(1f);

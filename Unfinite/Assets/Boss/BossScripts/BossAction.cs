@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BossAction : BossDecisionNode
 {
-    Boss boss;
+    // added public to fix scoping 
+    public Boss boss;
 
     public BossAction(Boss m_boss) : base()
     {

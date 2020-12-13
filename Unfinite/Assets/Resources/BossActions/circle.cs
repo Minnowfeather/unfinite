@@ -16,7 +16,7 @@ public class circle : BossAction
     {
         Debug.Log("circle");
 
-        crystal = boss.Current().gameObject.transform.getChild(index);
+        crystal = boss.gameObject.transform.GetChild(index).gameObject;
         crystal.GetComponent<generatePatterns>().circle(crystal, amount, speed, dR);
 
         yield return new WaitForSeconds(1f);
