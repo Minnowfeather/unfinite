@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5298512706453044689}
   - component: {fileID: 5298512706453044688}
   - component: {fileID: 5298512706453044691}
+  - component: {fileID: -5579375514994160749}
   m_Layer: 0
   m_Name: Crystal
   m_TagString: Untagged
@@ -144,3 +145,22 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &-5579375514994160749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298512706453044703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daeca9619b07d5a4b9a3d3391fcdccc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coneHandler: {fileID: 8839925392745079145, guid: 9a6f2ad05aa2486498556c952c3988ca, type: 3}
+  spinningCircleHandler: {fileID: 2073200828025804022, guid: ec3bff5b7bbe3cb439617861cafdd15c, type: 3}
+  laserHandler: {fileID: 2236860754836507154, guid: 7e1ce27be4505ee4f8dd52e80b5e635a, type: 3}
+  bulletLineHandler: {fileID: 6547330947219867148, guid: dce65ad0422874e438c64d36b1fad95a, type: 3}
+  movingCircleHandler: {fileID: 8144793612405606888, guid: 4f19c291d476212489070c8aa1303fc5, type: 3}
+  movingTriangleHandler: {fileID: 3667121225173288530, guid: f825f317cbf74344499e3e5b4a40a1ee, type: 3}
+  bulletPrefab: {fileID: 8809408922487450126, guid: 6cbc779c3cb3e374f883fe3fe70f7d5c, type: 3}
