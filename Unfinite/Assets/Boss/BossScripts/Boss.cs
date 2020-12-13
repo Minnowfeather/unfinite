@@ -37,7 +37,7 @@ public class Boss : MonoBehaviour
         memory = new BossMemory(3);
         tree = new BossDecisionTree(points);
         memory.NewGame();
-        tree.PrintTree(tree.rootNode);
+        //tree.PrintTree(tree.rootNode);
         StartCoroutine(tree.Evaluate(interpreter.InterpretGameState()).Act());
     }
 
@@ -45,7 +45,7 @@ public class Boss : MonoBehaviour
     {
         CompileActionSpace();
         memory.NewGame();
-        tree.PrintTree(tree.rootNode);
+        //tree.PrintTree(tree.rootNode);
         StartCoroutine(tree.Evaluate(interpreter.InterpretGameState()).Act());
     }
 
