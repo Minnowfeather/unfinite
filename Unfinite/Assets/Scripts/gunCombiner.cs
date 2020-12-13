@@ -52,7 +52,7 @@ public class gunCombiner : MonoBehaviour
     //    print(s.sprite);
     //}
 
-    void TestCombineParts()
+    void TestCombineParts(Texture2D mag, Texture2D barrel, Texture2D scope, Texture2D stock)
     {
         Texture2D[] rest = { mag, barrel, scope };
 
