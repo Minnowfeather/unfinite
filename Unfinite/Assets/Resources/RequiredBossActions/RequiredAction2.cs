@@ -11,6 +11,8 @@ public class RequiredAction2 : BossAction
 
     public override IEnumerator Act()
     {
+        
+
         base.End();
         yield return null;
     }
