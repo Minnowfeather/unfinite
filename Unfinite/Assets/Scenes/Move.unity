@@ -516,9 +516,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1968130946}
   - component: {fileID: 1968130945}
-  - component: {fileID: 1968130944}
   - component: {fileID: 1968130943}
   - component: {fileID: 1968130947}
+  - component: {fileID: 1968130944}
   m_Layer: 0
   m_Name: leveringpog
   m_TagString: Untagged
@@ -562,7 +562,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   speed: 15
   bullet: {fileID: 446823223817905150, guid: c409b3cbb342ef14eb9f7be5b982da7c, type: 3}
-  gravity: 0
+  shotDelay: 0.5
 --- !u!212 &1968130945
 SpriteRenderer:
   m_ObjectHideFlags: 0

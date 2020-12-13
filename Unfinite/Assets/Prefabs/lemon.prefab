@@ -118,8 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596b0cf7039323741a0ca745dffebf08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clone: {fileID: 0}
+  bullet: {fileID: 0}
   input_position: {x: 0, y: 0, z: 0}
+  speed: 40
 --- !u!114 &782480328276926315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,3 +133,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ec5b7bc36c331143998db4d8716da69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeTime: 30
