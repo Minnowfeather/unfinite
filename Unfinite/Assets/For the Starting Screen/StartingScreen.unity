@@ -288,6 +288,7 @@ GameObject:
   - component: {fileID: 394708867}
   - component: {fileID: 394708866}
   - component: {fileID: 394708865}
+  - component: {fileID: 394708868}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -343,6 +344,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &394708868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394708864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdae57dec5ee15b4a825e2300844f47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &428230560
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +436,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 428230563}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 394708868}
+        m_TargetAssemblyTypeName: sceneSwapper, Assembly-CSharp
+        m_MethodName: swapScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: bulletHellTesting
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &428230563
 MonoBehaviour:
   m_ObjectHideFlags: 0

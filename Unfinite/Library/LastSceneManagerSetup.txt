@@ -1,0 +1,5 @@
+sceneSetups:
+- path: Assets/For the Starting Screen/StartingScreen.unity
+  isLoaded: 1
+  isActive: 1
+  isSubScene: 0
